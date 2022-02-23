@@ -1,0 +1,146 @@
+# GENERAL
+alias nginx-toggle='sudo service apache2 stop && sudo service nginx start'
+alias apache-toggle='sudo service nginx stop && sudo service apache2 start'
+alias nginxr='sudo nginx -s reload'
+alias nginxt='sudo nginx -t'
+alias rd=rmdir
+alias run-emu='/home/jali/Android/Sdk/tools/emulator @pixel2'
+alias suwww='sudo su -l www-data -s /bin/bash'
+alias eval-ssh='eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa'
+alias lt="ls -ltrh"
+alias phpdebug="XDEBUG_CONFIG=idekey=phpstorm"
+alias dc="docker-compose"
+alias dcud="docker-compose up -d"
+alias dced="docker-compose exec django"
+alias dcedb="docker-compose exec django bash"
+alias dceds="docker-compose exec django python3 manage.py shell"
+alias dcedrs="docker-compose exec django python3 manage.py runserver 0.0.0.0:8000"
+alias _reload="source ~/.alias; source ~/.zshrc"
+alias xo="xdg-open"
+alias nt="npm test"
+alias tf="terraform"
+alias _history="history | sed 's/^[ ]*[0-9]\+[ ]*//'"
+alias v="nvim"
+alias nv="nvim"
+alias vim="nvim"
+
+# GIT
+alias gitl="git log"
+alias gits="git status"
+alias gitcam="git commit -am"
+alias gitf="git fetch"
+
+# MAGENTO
+alias cachenuke="bin/magento c:c && bin/magento c:f"
+alias staticdeploy="bin/magento c:f && rm -rf var/view_preprocessed/* pub/static/frontend/* var/cache/* && bin/magento setup:static-content:deploy en_US fi_FI -f"
+alias m2nuke="rm -rf var/view_preprocessed/* pub/static/frontend/* && bin/magento c:f"
+alias m2deploy="bin/magento setup:upgrade && bin/magento setup:di:compile && bin/magento setup:static-content:deploy en_US fi_FI -f" 
+alias m2refresh='m2nuke && m2deploy'
+alias m2reindex="bin/magento indexer:reindex"
+alias D="sudo -u www-data ./deploy_theme.sh"
+alias FD="sudo -u www-data ./full_deploy.sh"
+alias _elastic-dev='docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.9.3'
+
+# PYTHON
+alias soact="source virtualenv/bin/activate"
+
+# FUNCTIONS
+
+dock-shell() {
+    docker-compose exec django bash -c "$@"
+}
+dbdump() {
+    today=$();
+    sudo mysqldump "$1" > "$1"-`date +%Y-%m-%d`.sql
+}
+xon() {
+    sudo phpenmod xdebug	
+    sudo service php"$1"-fpm restart
+}
+
+xoff() {
+    sudo phpdismod xdebug	
+    sudo service php"$1"-fpm restart
+}
+
+countdown() {
+  date1=$((`date +%s` + $1)); 
+  while [ "$date1" -ge `date +%s` ]; do 
+    echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
+    sleep 0.1
+  done
+}
+
+stopwatch() {
+  date1=`date +%s`; 
+  while true; do 
+    echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"; 
+    sleep 0.1
+  done
+}
+
+# usage:
+# timer
+# timer <time expression in seconds>
+timer() {
+    if [ $# -eq 0 ]
+    then
+        date1=`date +%s`;
+        while true; do
+            echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
+            sleep 0.1
+        done
+    else
+        date1=$((`date +%s` + $@)); 
+        while [ "$date1" -ge `date +%s` ]; do 
+            echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
+            sleep 0.1
+        done
+        echo "Finished: $(date +%H:%M:%S)"
+    fi
+}
+
+gitreb() {
+    git stash
+    git rebase -i HEAD~$1
+    echo "--remember the stash--"
+}
+
+gitfuzz() {
+    git fetch
+    local branches branch
+    branches=$(git branch -a) &&
+    branch=$(echo "$branches" | fzf +s +m -e) &&
+    git checkout $(echo "$branch" | sed "s:.* remotes/origin/::" | sed "s:.* ::")
+}
+
+vimfuzz() {
+    vim `fzf`
+}
+
+gnome-restart() {
+    busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'Meta.restart("Restarting...")'
+} 
+
+cdv() {
+    local dst="$(command vifm --choose-dir - "$@")"
+    if [ -z "$dst" ]; then
+        echo 'Directory picking cancelled/failed'
+        return 1
+    fi
+    cd "$dst"
+}
+
+git-reset() {
+  current=$(git symbolic-ref --short -q HEAD)
+  read -sk "?Reset current branch? [y/N]: "
+  case $REPLY in
+  [yY])
+      echo
+      git checkout -b "temp"
+      git branch -D $current
+      git checkout $current
+      git branch -D temp
+      ;;
+  esac
+}

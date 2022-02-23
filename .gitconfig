@@ -1,0 +1,9 @@
+[user]
+	name = Jali Rainio
+	email = 
+	mail = 
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    edit = !$EDITOR $(git status --short | awk '$1 ~ /^M|A|U/ {print $2}' )
+[core]
+	fileMode = true
