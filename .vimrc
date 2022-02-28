@@ -8,6 +8,7 @@ filetype indent on
 " save to OS clipboard
 set clipboard=unnamedplus
 set hidden
+set showcmd
 
 """ SYNTAX & EDITING
 set tabstop=2 softtabstop=2 shiftwidth=2
@@ -28,7 +29,7 @@ set number
 set nowrap
 set visualbell
 set colorcolumn=100
-highlight ColorColumn ctermbg=magenta guibg=black
+highlight ColorColumn ctermbg=235
 set signcolumn=yes
 highlight clear SignColumn
 " unset "last search pattern" register by hitting return
@@ -75,6 +76,15 @@ let g:lightline#bufferline#show_number = 2
 if executable('rg')
     let g:rg_derive_root='true'
 endif
+
+""" PLUGIN CONFIG
+lua << EOF
+require('telescope').setup{
+  defaults = {
+    layout_strategy = 'vertical',
+  }
+}
+EOF
 
 """ ABBREVIATIONS
 
