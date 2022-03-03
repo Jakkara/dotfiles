@@ -9,6 +9,11 @@ filetype indent on
 set clipboard=unnamedplus
 set hidden
 set showcmd
+set ttimeout
+set notimeout
+set updatetime=750
+" CoC: Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
 
 """ SYNTAX & EDITING
 set tabstop=2 softtabstop=2 shiftwidth=2
@@ -28,9 +33,9 @@ set relativenumber
 set number
 set nowrap
 set visualbell
-set colorcolumn=100
+set colorcolumn=80,100
 highlight ColorColumn ctermbg=235
-set signcolumn=yes
+set signcolumn=number
 highlight clear SignColumn
 " unset "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
@@ -51,7 +56,13 @@ Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'mhinz/vim-signify'
 Plug 'davidhalter/jedi-vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'lambdalisue/fern.vim'
+Plug 'antoinemadec/FixCursorHold.nvim'
 call plug#end()
+
+""" External config files
+source ~/dotfiles/.coc.vimrc
 
 """ PLUGIN VARIABLES
 
@@ -76,6 +87,9 @@ let g:lightline#bufferline#show_number = 2
 if executable('rg')
     let g:rg_derive_root='true'
 endif
+" fern
+let g:cursorhold_updatetime = 100
+let g:fern#default_hidden = 1
 
 """ PLUGIN CONFIG
 lua << EOF
@@ -144,3 +158,5 @@ nmap <Leader>c7 <Plug>lightline#bufferline#delete(7)
 nmap <Leader>c8 <Plug>lightline#bufferline#delete(8)
 nmap <Leader>c9 <Plug>lightline#bufferline#delete(9)
 nmap <Leader>c0 <Plug>lightline#bufferline#delete(10)
+" Fern
+nnoremap <leader>e <cmd>Fern . -drawer -width=50<cr>
