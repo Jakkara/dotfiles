@@ -30,16 +30,6 @@ alias gits="git status"
 alias gitcam="git commit -am"
 alias gitf="git fetch"
 
-# MAGENTO
-alias cachenuke="bin/magento c:c && bin/magento c:f"
-alias staticdeploy="bin/magento c:f && rm -rf var/view_preprocessed/* pub/static/frontend/* var/cache/* && bin/magento setup:static-content:deploy en_US fi_FI -f"
-alias m2nuke="rm -rf var/view_preprocessed/* pub/static/frontend/* && bin/magento c:f"
-alias m2deploy="bin/magento setup:upgrade && bin/magento setup:di:compile && bin/magento setup:static-content:deploy en_US fi_FI -f" 
-alias m2refresh='m2nuke && m2deploy'
-alias m2reindex="bin/magento indexer:reindex"
-alias D="sudo -u www-data ./deploy_theme.sh"
-alias FD="sudo -u www-data ./full_deploy.sh"
-alias _elastic-dev='docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.9.3'
 
 # PYTHON
 alias soact="source virtualenv/bin/activate"
@@ -144,3 +134,5 @@ git-reset() {
       ;;
   esac
 }
+
+source ~/dotfiles/.private
