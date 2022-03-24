@@ -90,6 +90,7 @@ endif
 " fern
 let g:cursorhold_updatetime = 100
 let g:fern#default_hidden = 1
+let g:undotree_SplitWidth = 50
 
 """ PLUGIN CONFIG
 lua << EOF
@@ -138,8 +139,6 @@ nnoremap <leader>bD <cmd>bd!<cr>
 " Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-""" Undotree
-nnoremap <leader>ut <cmd>UndotreeToggle<cr>
 """ Bufferline
 nmap <Leader>1 <Plug>lightline#bufferline#go(1)
 nmap <Leader>2 <Plug>lightline#bufferline#go(2)
@@ -163,3 +162,5 @@ nmap <Leader>c9 <Plug>lightline#bufferline#delete(9)
 nmap <Leader>c0 <Plug>lightline#bufferline#delete(10)
 " Fern
 nnoremap <leader>e <cmd>Fern . -drawer -width=50<cr>
+""" Undotree
+nnoremap <F5> <cmd>UndotreeToggle<cr>
