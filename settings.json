@@ -1,0 +1,253 @@
+{
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[less]": {
+    "editor.defaultFormatter": "HookyQR.beautify"
+  },
+  "[php]": {
+    "editor.defaultFormatter": "junstyle.php-cs-fixer"
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "[terraform-vars]": {
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "[terraform]": {
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "autoDocstring.docstringFormat": "sphinx",
+  "autoDocstring.startOnNewLine": true,
+  "debug.focusWindowOnBreak": false,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.renderSideBySide": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.fixAll.sortJSON": false
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.fontFamily": "'Ubuntu Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 16,
+  "editor.formatOnPaste": true,
+  "editor.hover.delay": 500,
+  "editor.lineHeight": 1.1,
+  "editor.lineNumbers": "relative",
+  "editor.minimap.maxColumn": 60,
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.size": "fit",
+  "editor.renderControlCharacters": true,
+  "editor.renderWhitespace": "all",
+  "editor.rulers": [80, 100],
+  "editor.tabCompletion": "on",
+  "editor.tokenColorCustomizations": {
+    "[Panda Syntax]": {
+      "textMateRules": [
+        {
+          "scope": "meta.function-call.generic.python",
+          "settings": {
+            "fontStyle": "italic",
+            "foreground": "#6FC1FF"
+          }
+        },
+        {
+          "scope": "comment.line.number-sign.python",
+          "settings": {
+            "foreground": "#7a989b"
+          }
+        },
+        {
+          "scope": "variable.language.special.self.python",
+          "settings": {
+            "foreground": "#55e992"
+          }
+        },
+        {
+          "scope": "comment.block.html",
+          "settings": {
+            "foreground": "#c1ade6"
+          }
+        },
+        {
+          "scope": "comment.line.double-slash.tsx",
+          "settings": {
+            "foreground": "#d756ff"
+          }
+        },
+        {
+          "scope": "comment.block.documentation.tsx",
+          "settings": {
+            "foreground": "#a6a1b1"
+          }
+        }
+      ]
+    }
+  },
+  "eslint.run": "onSave",
+  "explorer.autoReveal": false,
+  "explorer.compactFolders": false,
+  "files.associations": {
+    "*.tf": "terraform",
+    "*.php}": "php"
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/cache/**": true,
+    "**/lib/**": true,
+    "**/node_modules/*/**": true,
+    "**/setup/**": true,
+    "**/vendor/**": true
+  },
+  "git.autofetch": true,
+  "gitlens.blame.avatars": false,
+  "gitlens.changes.locations": ["overview", "gutter"],
+  "gitlens.codeLens.authors.command": "gitlens.showQuickFileHistory",
+  "gitlens.codeLens.recentChange.command": false,
+  "gitlens.codeLens.scopes": ["document", "containers", "blocks"],
+  "gitlens.fileAnnotations.command": "changes",
+  "gitlens.hovers.avatars": false,
+  "gitlens.hovers.currentLine.over": "line",
+  "gitlens.hovers.enabled": false,
+  "gitlens.menus": {
+    "editor": {
+      "blame": false,
+      "clipboard": true,
+      "compare": true,
+      "history": false,
+      "remote": false
+    },
+    "editorGroup": false,
+    "editorTab": {
+      "clipboard": true,
+      "compare": true,
+      "history": true,
+      "remote": true
+    },
+    "explorer": {
+      "clipboard": true,
+      "compare": true,
+      "history": true,
+      "remote": true
+    },
+    "scm": {
+      "authors": true
+    },
+    "scmGroup": {
+      "compare": true,
+      "openClose": true,
+      "stash": true
+    },
+    "scmGroupInline": {
+      "stash": true
+    },
+    "scmItem": {
+      "clipboard": true,
+      "compare": true,
+      "history": true,
+      "remote": false,
+      "stash": true
+    }
+  },
+  "gitlens.statusBar.format": "${author} | ${agoOrDateShort}",
+  "gitlens.statusBar.reduceFlicker": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  //"typescript.validate.enable": false,
+  "javascript.validate.enable": false,
+  "jupyter.sendSelectionToInteractiveWindow": false,
+  "keyboard.dispatch": "keyCode",
+  "php-cs-fixer.executablePath": "${extensionPath}/php-cs-fixer.phar",
+  "php-cs-fixer.lastDownload": 1648113377340,
+  "python.defaultInterpreterPath": "/usr/bin/python3",
+  "python.formatting.autopep8Args": [
+    "--max-line-length",
+    "100",
+    "--experimental"
+  ],
+  "python.formatting.blackArgs": ["--line-length=100"],
+  "python.formatting.provider": "black",
+  "python.linting.flake8Args": ["--max-line-length=100"],
+  "redhat.telemetry.enabled": false,
+  "search.searchEditor.defaultNumberOfContextLines": 5,
+  "search.useIgnoreFiles": false,
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.tabs.enabled": false,
+  "todo-tree.general.tags": [
+    "BUG",
+    "HACK",
+    "FIXME",
+    "TODO",
+    "XXX",
+    "[ ]",
+    "[x]"
+  ],
+  "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
+  "todo-tree.tree.showScanModeButton": false,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "vim.handleKeys": {
+    "<C-a>": false,
+    "<C-b>": false,
+    "<C-c>": false,
+    "<C-e>": false,
+    "<C-f>": false,
+    "<C-j>": false,
+    "<C-k>": false,
+    "<C-n>": false,
+    "<C-v>": false,
+    "<C-w>": false,
+    "<C-y>": false
+  },
+  "vim.useCtrlKeys": true,
+  "vim.useSystemClipboard": true,
+  "vsicons.dontShowNewVersionMessage": true,
+  "window.menuBarVisibility": "compact",
+  "workbench.colorCustomizations": {
+    "diffEditor.insertedTextBackground": "#00ffbf13",
+    "diffEditor.removedTextBackground": "#ff000018",
+    "tab.activeBorder": "#ff12c4"
+  },
+  "workbench.colorTheme": "Panda Syntax",
+  "workbench.editor.decorations.badges": true,
+  "workbench.editor.decorations.colors": true,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.editor.labelFormat": "short",
+  "workbench.editor.pinnedTabSizing": "shrink",
+  "workbench.editor.showTabs": true,
+  "workbench.editor.tabCloseButton": "left",
+  "workbench.editor.tabSizing": "shrink",
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook",
+    "git-rebase-todo": "gitlens.rebase"
+  },
+  "workbench.tree.indent": 12,
+  "workbench.tree.renderIndentGuides": "always",
+  "workbench.view.alwaysShowHeaderActions": true,
+  "zenMode.fullScreen": false,
+  "window.titleBarStyle": "custom",
+  "workbench.sideBar.location": "right"
+}
