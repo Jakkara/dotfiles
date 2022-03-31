@@ -113,13 +113,11 @@ export PATH=$PATH:~/Dev/Tools/age
 
 export PATH=$PATH:$HOME/Dev/Programs
 export PATH="$PATH:$HOME/.config/composer/vendor/bin"
-eval `dircolors /home/jali/.dir_colors/dircolors`
 alias python='python3'
 source ~/.local/bin/bashmarks.sh
 
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/bin/terraform terraform
-source /home/jali/.zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /home/jali/Applications/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
         source /etc/profile.d/vte.sh
 fi
@@ -137,7 +135,3 @@ source /usr/share/doc/fzf/examples/key-bindings.zsh
 # Add FZF autocomplete
 source /usr/share/doc/fzf/examples/completion.zsh
 if [ "$TMUX" = "" ]; then tmux; fi
-
-export WORKON_HOME=$HOME/.virtualenvs
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
-source `which virtualenvwrapper.sh`
