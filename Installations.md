@@ -81,3 +81,11 @@ ln -s /home/jali/dotfiles/.zshrc /home/jali/.zshrc
 ln -s /home/jali/dotfiles/.alias /home/jali/.alias
 ```
 
+## Docker
+```
+sudo apt-get install \\n    ca-certificates \\n    curl \\n    gnupg \\n    lsb-release\n
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg\n
+echo \\n  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \\n  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null\n
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io
+```
