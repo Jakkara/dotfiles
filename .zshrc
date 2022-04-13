@@ -58,7 +58,7 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(poetry git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -136,3 +136,5 @@ source /usr/share/doc/fzf/examples/key-bindings.zsh
 # Add FZF autocomplete
 source /usr/share/doc/fzf/examples/completion.zsh
 if [ "$TMUX" = "" ]; then tmux; fi
+
+export PATH="$HOME/.poetry/bin:$PATH"

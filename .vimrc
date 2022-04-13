@@ -59,6 +59,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'lambdalisue/fern.vim'
 Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'tpope/vim-surround'
 call plug#end()
 
 """ External config files
@@ -133,6 +134,7 @@ nnoremap <leader>bc <cmd>enew<cr>
 nnoremap <leader>bn <cmd>bn<cr>
 nnoremap <leader>bd <cmd>bd<cr>
 nnoremap <leader>bD <cmd>bd!<cr>
+nnoremap <leader>w <cmd>set wrap!<cr>
 
 """ PLUGIN KEYBINDS
 

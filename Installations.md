@@ -89,3 +89,17 @@ echo \\n  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/
 sudo apt update
 sudo apt install docker-ce docker-ce-cli containerd.io
 ```
+
+## Pipewire
+```
+# Taken from https://askubuntu.com/questions/1339765/replacing-pulseaudio-with-pipewire-in-ubuntu-20-04
+sudo add-apt-repository ppa:pipewire-debian/pipewire-upstream
+sudo apt update
+sudo apt install pipewire libspa-0.2-bluetooth
+sudo apt install pipewire-audio-client-libraries
+systemctl --user daemon-reload
+systemctl --user --now disable pulseaudio.service pulseaudio.socket
+systemctl --user mask pulseaudio
+systemctl --user --now enable pipewire pipewire-pulse
+pactl info
+```
