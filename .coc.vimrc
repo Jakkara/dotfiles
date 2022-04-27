@@ -1,5 +1,6 @@
 """ CoC plugins. Run install commands manually
 "CocInstall coc-json coc-tsserver
+"CocInstall coc-pyright
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by

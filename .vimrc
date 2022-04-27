@@ -24,6 +24,7 @@ set scrolloff=4
 set wildmenu
 set undodir=/home/jali/.vim/undodir
 set undofile
+set breakindent
 
 """ STYLE
 set cursorline
@@ -45,21 +46,20 @@ set showtabline=2
 
 """ PLUGINS
 call plug#begin()
+Plug 'tpope/vim-surround'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'jremmen/vim-ripgrep'
-Plug 'leafgarland/typescript-vim'
+Plug 'lambdalisue/fern.vim'
+Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'mbbill/undotree'
 Plug 'godlygeek/tabular'
 Plug 'preservim/vim-markdown'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
-Plug 'davidhalter/jedi-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'lambdalisue/fern.vim'
 Plug 'antoinemadec/FixCursorHold.nvim'
-Plug 'tpope/vim-surround'
 call plug#end()
 
 """ External config files
@@ -88,9 +88,6 @@ let g:lightline#bufferline#show_number = 2
 if executable('rg')
     let g:rg_derive_root='true'
 endif
-" fern
-let g:cursorhold_updatetime = 100
-let g:fern#default_hidden = 1
 let g:undotree_SplitWidth = 50
 
 """ PLUGIN CONFIG
@@ -125,15 +122,12 @@ nnoremap <leader>vimrc <cmd>e ~/.vimrc<cr>
 nnoremap <leader>notes <cmd>e ~/Notes/Notes.md<cr>
 "save with doublespace
 nnoremap <leader> <cmd>w<cr>
-"notetaking
-nnoremap <leader>keep <cmd>e ~/Dev/Keep/data-cleaning.md<cr>
-"newtab
-nnoremap <leader>tn <cmd>tabnew<cr>
 "buffer commands
 nnoremap <leader>bc <cmd>enew<cr>
 nnoremap <leader>bn <cmd>bn<cr>
 nnoremap <leader>bd <cmd>bd<cr>
 nnoremap <leader>bD <cmd>bd!<cr>
+" softwrap
 nnoremap <leader>w <cmd>set wrap!<cr>
 
 """ PLUGIN KEYBINDS
@@ -162,7 +156,7 @@ nmap <Leader>c7 <Plug>lightline#bufferline#delete(7)
 nmap <Leader>c8 <Plug>lightline#bufferline#delete(8)
 nmap <Leader>c9 <Plug>lightline#bufferline#delete(9)
 nmap <Leader>c0 <Plug>lightline#bufferline#delete(10)
-" Fern
-nnoremap <leader>e <cmd>Fern . -drawer -width=50<cr>
 """ Undotree
 nnoremap <F5> <cmd>UndotreeToggle<cr>
+""" NerdTree
+nnoremap <leader>e :Fern . -drawer -toggle<CR>

@@ -23,6 +23,7 @@ alias _history="history | sed 's/^[ ]*[0-9]\+[ ]*//'"
 alias v="nvim"
 alias nv="nvim"
 alias vim="nvim"
+alias e="exa -l"
 
 # GIT
 alias gitl="git log"
@@ -91,9 +92,13 @@ timer() {
 }
 
 gitreb() {
+  if [ -z "$(git status --untracked-files=no --porcelain)" ]; then 
+    git rebase -i HEAD~$1
+  else 
     git stash
     git rebase -i HEAD~$1
-    echo "--remember the stash--"
+    git stash pop
+  fi
 }
 
 gitfuzz() {
@@ -105,7 +110,7 @@ gitfuzz() {
 }
 
 vimfuzz() {
-    vim `fzf`
+    vim `bfuzz`
 }
 
 gnome-restart() {
@@ -133,6 +138,12 @@ git-reset() {
       git branch -D temp
       ;;
   esac
+}
+bdiff() {
+  git diff --name-only --diff-filter=d | xargs bat --diff
+}
+bfuzz() {
+  fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'
 }
 
 source ~/dotfiles/.private
