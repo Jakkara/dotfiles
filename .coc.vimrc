@@ -2,6 +2,9 @@
 "CocInstall coc-json coc-tsserver
 "CocInstall coc-pyright
 
+" PERSONAL
+nnoremap <leader>d <cmd>call CocActionAsync('jumpDefinition') <cr>
+
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.

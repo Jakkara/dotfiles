@@ -23,7 +23,7 @@ alias _history="history | sed 's/^[ ]*[0-9]\+[ ]*//'"
 alias v="nvim"
 alias nv="nvim"
 alias vim="nvim"
-alias e="exa -l"
+alias e="exa -la"
 
 # GIT
 alias gitl="git log"
