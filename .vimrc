@@ -1,3 +1,23 @@
+""" PLUGINS
+call plug#begin()
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'jremmen/vim-ripgrep'
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'godlygeek/tabular'
+Plug 'preservim/vim-markdown'
+Plug 'itchyny/lightline.vim'
+Plug 'mengelbrecht/lightline-bufferline'
+Plug 'airblade/vim-gitgutter'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'preservim/tagbar'
+Plug 'dracula/vim', { 'as': 'dracula' }
+call plug#end()
+
 """ GENERAL
 " disable backwards compat
 set nocompatible
@@ -21,7 +41,7 @@ set tabstop=4 softtabstop=4 shiftwidth=4
 set smartindent
 set expandtab
 set incsearch
-set scrolloff=4
+set scrolloff=8
 set wildmenu
 set undodir=/home/jali/.vim/undodir
 set undofile
@@ -30,6 +50,7 @@ set splitbelow
 set splitright
 
 """ STYLE
+colorscheme dracula
 set cursorline
 set hlsearch
 hi CursorLine term=bold cterm=bold guibg=lightgrey
@@ -43,32 +64,11 @@ set signcolumn=number
 highlight clear SignColumn
 " unset "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
-" not required with lightline
+" compat configs for lightline
 set noshowmode
 set showtabline=2
-
-""" PLUGINS
-call plug#begin()
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'jremmen/vim-ripgrep'
-Plug 'lambdalisue/fern.vim'
-Plug 'antoinemadec/FixCursorHold.nvim'
-Plug 'godlygeek/tabular'
-Plug 'preservim/vim-markdown'
-Plug 'itchyny/lightline.vim'
-Plug 'mengelbrecht/lightline-bufferline'
-Plug 'airblade/vim-gitgutter'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'antoinemadec/FixCursorHold.nvim'
-Plug 'preservim/tagbar'
-call plug#end()
-
-""" External config files
-source ~/dotfiles/.coc.vimrc
-source ~/dotfiles/.private.vimrc
+" better markdown display
+set conceallevel=1
 
 """ PLUGIN VARIABLES
 let g:fern#default_hidden = 1
@@ -93,12 +93,13 @@ let g:lightline#bufferline#show_number = 2
 if executable('rg')
     let g:rg_derive_root='true'
 endif
-let g:tagbar_width = 50
+let g:tagbar_width = 40
 
 """ PLUGIN CONFIG
 lua << EOF
 require('telescope').setup{
   defaults = {
+    file_ignore_patterns = { "poetry.lock" },
     layout_strategy = 'vertical',
     layout_config = {
       height = 0.95
@@ -156,6 +157,7 @@ map <leader>t :TagbarToggle<CR>
 " Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+vnoremap <leader>fv "zy:Telescope live_grep default_text=<C-r>z<cr>
 """ Bufferline
 nmap <Leader>1 <Plug>lightline#bufferline#go(1)
 nmap <Leader>2 <Plug>lightline#bufferline#go(2)
@@ -177,5 +179,40 @@ nmap <Leader>c7 <Plug>lightline#bufferline#delete(7)
 nmap <Leader>c8 <Plug>lightline#bufferline#delete(8)
 nmap <Leader>c9 <Plug>lightline#bufferline#delete(9)
 nmap <Leader>c0 <Plug>lightline#bufferline#delete(10)
-""" Fern
-nnoremap <leader>e :Fern . -drawer -toggle<CR>
+nnoremap <Right> <cmd>bnext<cr>
+nnoremap <Left> <cmd>bprevious<cr>
+nnoremap <Down> <cmd>bdelete<cr>
+""" Fern, configs from https://bluz71.github.io/2017/05/21/vim-plugins-i-like.html
+noremap <silent> <leader>e :Fern . -drawer -toggle -width=40<CR>
+noremap <silent> <Leader>E :Fern . -drawer -reveal=% -width=40<CR><C-w>=
+function! FernInit() abort
+  nmap <buffer><expr>
+        \ <Plug>(fern-my-open-expand-collapse)
+        \ fern#smart#leaf(
+        \   "\<Plug>(fern-action-open:select)",
+        \   "\<Plug>(fern-action-expand)",
+        \   "\<Plug>(fern-action-collapse)",
+        \ )
+  nmap <buffer> <CR> <Plug>(fern-my-open-expand-collapse)
+  nmap <buffer> <2-LeftMouse> <Plug>(fern-my-open-expand-collapse)
+  nmap <buffer> m <Plug>(fern-action-mark:toggle)
+  nmap <buffer> N <Plug>(fern-action-new-file)
+  nmap <buffer> K <Plug>(fern-action-new-dir)
+  nmap <buffer> D <Plug>(fern-action-remove)
+  nmap <buffer> C <Plug>(fern-action-move)
+  nmap <buffer> R <Plug>(fern-action-rename)
+endfunction
+
+augroup FernEvents
+  autocmd!
+  autocmd FileType fern call FernInit()
+augroup END
+
+""" BUFFER MANAGEMENT, source: https://dockyard.com/blog/2018/06/01/simple-vim-session-management-part-1
+let g:sessions_dir = '~/vim-sessions'
+exec 'nnoremap <f8> :so ' . g:sessions_dir. '/*.vim<C-D><BS><BS><BS><BS><BS>'
+exec 'nnoremap <S-f8> :mks! ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
+
+""" External config files
+source ~/dotfiles/.coc.vimrc
+source ~/dotfiles/.private.vimrc
