@@ -31,8 +31,9 @@ set hidden
 set showcmd
 set ttimeout
 set notimeout
-set updatetime=750
+set autoread
 " CoC: Don't pass messages to |ins-completion-menu|.
+set updatetime=750
 set mouse=a
 set shortmess+=c
 
@@ -63,7 +64,7 @@ highlight ColorColumn ctermbg=235
 set signcolumn=number
 highlight clear SignColumn
 " unset "last search pattern" register by hitting return
-nnoremap <CR> :noh<CR><CR>
+nnoremap <CR> :noh<CR>
 " compat configs for lightline
 set noshowmode
 set showtabline=2
@@ -121,10 +122,10 @@ iabbrev <<c ✓
 let mapleader = "\<Space>" 
 
 " move between splits
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+nnoremap <M-j> <C-W><C-J>
+nnoremap <M-k> <C-W><C-K>
+nnoremap <M-l> <C-W><C-L>
+nnoremap <M-h> <C-W><C-H>
 
 nnoremap <leader>rvimrc <cmd>so ~/.vimrc<cr>
 
@@ -157,6 +158,7 @@ map <leader>t :TagbarToggle<CR>
 " Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+" live grep highlighted text
 vnoremap <leader>fv "zy:Telescope live_grep default_text=<C-r>z<cr>
 """ Bufferline
 nmap <Leader>1 <Plug>lightline#bufferline#go(1)
@@ -179,9 +181,10 @@ nmap <Leader>c7 <Plug>lightline#bufferline#delete(7)
 nmap <Leader>c8 <Plug>lightline#bufferline#delete(8)
 nmap <Leader>c9 <Plug>lightline#bufferline#delete(9)
 nmap <Leader>c0 <Plug>lightline#bufferline#delete(10)
-nnoremap <Right> <cmd>bnext<cr>
-nnoremap <Left> <cmd>bprevious<cr>
-nnoremap <Down> <cmd>bdelete<cr>
+" buffer navigation
+nnoremap <C-L> <cmd>bnext<cr>
+nnoremap <C-H> <cmd>bprevious<cr>
+nnoremap <C-J> <cmd>bdelete<cr>
 """ Fern, configs from https://bluz71.github.io/2017/05/21/vim-plugins-i-like.html
 noremap <silent> <leader>e :Fern . -drawer -toggle -width=40<CR>
 noremap <silent> <Leader>E :Fern . -drawer -reveal=% -width=40<CR><C-w>=
