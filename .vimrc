@@ -54,14 +54,14 @@ set splitright
 colorscheme dracula
 set cursorline
 set hlsearch
-hi CursorLine term=bold cterm=bold guibg=lightgrey
 set relativenumber
 set number
 set nowrap
 set visualbell
 set colorcolumn=80,120
-highlight ColorColumn ctermbg=235
 set signcolumn=number
+hi CursorLine term=bold cterm=bold guibg=235 ctermbg=235
+highlight ColorColumn ctermbg=235
 highlight clear SignColumn
 " unset "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR>
@@ -75,7 +75,7 @@ set conceallevel=1
 let g:fern#default_hidden = 1
 let g:vim_markdown_new_list_item_indent = 0
 let g:lightline = {
-      \ 'colorscheme': 'one',
+      \ 'colorscheme': 'OldHope',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'relativepath', 'modified' ] ]
       \ },
@@ -119,6 +119,8 @@ iabbrev <<= ============
 iabbrev <<c ✓
 
 """ CUSTOM KEYBINDS
+" unset needless Shift+J command
+map <S-j> <Nop>
 let mapleader = "\<Space>" 
 
 " move between splits
@@ -127,10 +129,9 @@ nnoremap <M-k> <C-W><C-K>
 nnoremap <M-l> <C-W><C-L>
 nnoremap <M-h> <C-W><C-H>
 
-nnoremap <leader>rvimrc <cmd>so ~/.vimrc<cr>
-
 "vimrc
 nnoremap <leader>vimrc <cmd>e ~/.vimrc<cr>
+nnoremap <leader>rvimrc <cmd>so ~/.vimrc<cr>
 "notetaking
 nnoremap <leader>notes <cmd>e ~/Notes/Notes.md<cr>
 "save with doublespace
@@ -140,16 +141,21 @@ nnoremap <leader>bc <cmd>enew<cr>
 nnoremap <leader>bn <cmd>bn<cr>
 nnoremap <leader>bd <cmd>bd<cr>
 nnoremap <leader>bD <cmd>bd!<cr>
+" buffer navigation
+nnoremap <C-L> <cmd>bnext<cr>
+nnoremap <C-H> <cmd>bprevious<cr>
+nnoremap <C-J> <cmd>bdelete<cr>
+nnoremap <C-K> <cmd>enew<cr>
 " softwrap
 nnoremap <leader>w <cmd>set wrap!<cr>
 
 " moving lines
-nnoremap <A-j> :m+<CR>==
-nnoremap <A-k> :m-2<CR>==
-inoremap <A-j> <Esc>:m+<CR>==gi
-inoremap <A-k> <Esc>:m-2<CR>==gi
-vnoremap <A-j> :m'>+<CR>gv=gv
-vnoremap <A-k> :m-2<CR>gv=gv
+nnoremap <A-S-j> :m+<CR>==
+nnoremap <A-S-k> :m-2<CR>==
+inoremap <A-S-j> <Esc>:m+<CR>==gi
+inoremap <A-S-k> <Esc>:m-2<CR>==gi
+vnoremap <A-S-j> :m'>+<CR>gv=gv
+vnoremap <A-S-k> :m-2<CR>gv=gv
 
 
 """ PLUGIN KEYBINDS
@@ -181,10 +187,6 @@ nmap <Leader>c7 <Plug>lightline#bufferline#delete(7)
 nmap <Leader>c8 <Plug>lightline#bufferline#delete(8)
 nmap <Leader>c9 <Plug>lightline#bufferline#delete(9)
 nmap <Leader>c0 <Plug>lightline#bufferline#delete(10)
-" buffer navigation
-nnoremap <C-L> <cmd>bnext<cr>
-nnoremap <C-H> <cmd>bprevious<cr>
-nnoremap <C-J> <cmd>bdelete<cr>
 """ Fern, configs from https://bluz71.github.io/2017/05/21/vim-plugins-i-like.html
 noremap <silent> <leader>e :Fern . -drawer -toggle -width=40<CR>
 noremap <silent> <Leader>E :Fern . -drawer -reveal=% -width=40<CR><C-w>=

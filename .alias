@@ -100,6 +100,18 @@ gitreb() {
     git stash pop
   fi
 }
+gitreb-master() {
+    git fetch origin master:master
+    git stash
+    git rebase origin/master
+    git stash pop
+}
+gitreb-main() {
+    git fetch origin main:main
+    git stash
+    git rebase origin/main
+    git stash pop
+}
 
 gitfuzz() {
     git fetch
