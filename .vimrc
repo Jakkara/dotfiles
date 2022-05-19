@@ -63,8 +63,8 @@ set signcolumn=number
 hi CursorLine term=bold cterm=bold guibg=235 ctermbg=235
 highlight ColorColumn ctermbg=235
 highlight clear SignColumn
-" unset "last search pattern" register by hitting return
-nnoremap <CR> :noh<CR>
+" unset last search pattern register by hitting return
+nnoremap <S-CR> :noh<CR>
 " compat configs for lightline
 set noshowmode
 set showtabline=2
@@ -101,9 +101,10 @@ lua << EOF
 require('telescope').setup{
   defaults = {
     file_ignore_patterns = { "poetry.lock" },
-    layout_strategy = 'vertical',
+    layout_strategy = 'horizontal',
     layout_config = {
-      height = 0.95
+      height = 0.95,
+      width = 0.90
     }
   }
 }
@@ -164,8 +165,16 @@ map <leader>t :TagbarToggle<CR>
 " Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fh <cmd>Telescope oldfiles<cr>
+nnoremap <leader>fq <cmd>Telescope quickfix<cr>
+nnoremap <M-k> <cmd>Telescope grep_string initial_mode=normal <cr>
 " live grep highlighted text
-vnoremap <leader>fv "zy:Telescope live_grep default_text=<C-r>z<cr>
+vnoremap <leader>fv "zy:Telescope live_grep initial_mode=normal default_text=<C-r>z<cr>
+" Telescope + Git
+nnoremap <leader>gc <cmd>Telescope git_commits<cr>
+nnoremap <leader>gbc <cmd>Telescope git_bcommits<cr>
+nnoremap <leader>gs <cmd>Telescope git_status<cr>
+
 """ Bufferline
 nmap <Leader>1 <Plug>lightline#bufferline#go(1)
 nmap <Leader>2 <Plug>lightline#bufferline#go(2)
@@ -213,7 +222,7 @@ augroup FernEvents
   autocmd FileType fern call FernInit()
 augroup END
 
-""" BUFFER MANAGEMENT, source: https://dockyard.com/blog/2018/06/01/simple-vim-session-management-part-1
+""" SESSION MANAGEMENT, source: https://dockyard.com/blog/2018/06/01/simple-vim-session-management-part-1
 let g:sessions_dir = '~/vim-sessions'
 exec 'nnoremap <f8> :so ' . g:sessions_dir. '/*.vim<C-D><BS><BS><BS><BS><BS>'
 exec 'nnoremap <S-f8> :mks! ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
