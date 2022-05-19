@@ -2,6 +2,7 @@
 call plug#begin()
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-obsession'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'jremmen/vim-ripgrep'
@@ -165,7 +166,7 @@ map <leader>t :TagbarToggle<CR>
 " Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fh <cmd>Telescope oldfiles<cr>
+nnoremap <leader>fr <cmd>Telescope oldfiles<cr>
 nnoremap <leader>fq <cmd>Telescope quickfix<cr>
 nnoremap <M-k> <cmd>Telescope grep_string initial_mode=normal <cr>
 " live grep highlighted text
@@ -225,7 +226,7 @@ augroup END
 """ SESSION MANAGEMENT, source: https://dockyard.com/blog/2018/06/01/simple-vim-session-management-part-1
 let g:sessions_dir = '~/vim-sessions'
 exec 'nnoremap <f8> :so ' . g:sessions_dir. '/*.vim<C-D><BS><BS><BS><BS><BS>'
-exec 'nnoremap <S-f8> :mks! ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
+exec 'nnoremap <S-f8> :Obsession ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
 
 """ External config files
 source ~/dotfiles/.coc.vimrc
