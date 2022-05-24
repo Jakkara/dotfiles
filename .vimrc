@@ -2,6 +2,7 @@
 call plug#begin()
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-obsession'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -70,7 +71,7 @@ nnoremap <S-CR> :noh<CR>
 set noshowmode
 set showtabline=2
 " better markdown display
-set conceallevel=1
+set conceallevel=2
 
 """ PLUGIN VARIABLES
 let g:fern#default_hidden = 1
@@ -102,7 +103,7 @@ lua << EOF
 require('telescope').setup{
   defaults = {
     file_ignore_patterns = { "poetry.lock" },
-    layout_strategy = 'horizontal',
+    layout_strategy = 'vertical',
     layout_config = {
       height = 0.95,
       width = 0.90
@@ -166,11 +167,13 @@ map <leader>t :TagbarToggle<CR>
 " Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fr <cmd>Telescope oldfiles<cr>
+nnoremap <leader>fl <cmd>Telescope resume<cr>
+nnoremap <leader>fo <cmd>Telescope oldfiles<cr>
 nnoremap <leader>fq <cmd>Telescope quickfix<cr>
+nnoremap <leader>fm <cmd>Telescope keymaps<cr>
 nnoremap <M-k> <cmd>Telescope grep_string initial_mode=normal <cr>
 " live grep highlighted text
-vnoremap <leader>fv "zy:Telescope live_grep initial_mode=normal default_text=<C-r>z<cr>
+vnoremap <leader>fv "zy:Telescope live_grep initial_mode=normal <cr><C-r>z
 " Telescope + Git
 nnoremap <leader>gc <cmd>Telescope git_commits<cr>
 nnoremap <leader>gbc <cmd>Telescope git_bcommits<cr>
