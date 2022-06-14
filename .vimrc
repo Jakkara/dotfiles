@@ -1,6 +1,6 @@
 """ PLUGINS
 call plug#begin()
-Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-obsession'
@@ -18,6 +18,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/tagbar'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'nvie/vim-flake8'
 call plug#end()
 
 """ GENERAL
@@ -41,6 +42,7 @@ set shortmess+=c
 
 """ SYNTAX & EDITING
 set tabstop=4 softtabstop=4 shiftwidth=4
+set list
 set smartindent
 set expandtab
 set incsearch
@@ -66,7 +68,7 @@ hi CursorLine term=bold cterm=bold guibg=235 ctermbg=235
 highlight ColorColumn ctermbg=235
 highlight clear SignColumn
 " unset last search pattern register by hitting return
-nnoremap <S-CR> :noh<CR>
+nnoremap <BS> :noh<CR>
 " compat configs for lightline
 set noshowmode
 set showtabline=2
@@ -103,7 +105,7 @@ lua << EOF
 require('telescope').setup{
   defaults = {
     file_ignore_patterns = { "poetry.lock" },
-    layout_strategy = 'vertical',
+    layout_strategy = 'horizontal',
     layout_config = {
       height = 0.95,
       width = 0.90
@@ -131,6 +133,7 @@ nnoremap <M-j> <C-W><C-J>
 nnoremap <M-k> <C-W><C-K>
 nnoremap <M-l> <C-W><C-L>
 nnoremap <M-h> <C-W><C-H>
+nnoremap <C-q> <C-w>q
 
 "vimrc
 nnoremap <leader>vimrc <cmd>e ~/.vimrc<cr>
@@ -139,16 +142,12 @@ nnoremap <leader>rvimrc <cmd>so ~/.vimrc<cr>
 nnoremap <leader>notes <cmd>e ~/Notes/Notes.md<cr>
 "save with doublespace
 nnoremap <leader> <cmd>w<cr>
-"buffer commands
-nnoremap <leader>bc <cmd>enew<cr>
-nnoremap <leader>bn <cmd>bn<cr>
-nnoremap <leader>bd <cmd>bd<cr>
-nnoremap <leader>bD <cmd>bd!<cr>
 " buffer navigation
 nnoremap <C-L> <cmd>bnext<cr>
 nnoremap <C-H> <cmd>bprevious<cr>
-nnoremap <C-J> <cmd>bdelete<cr>
+nnoremap <C-J> :bprevious<bar>bd#<CR>
 nnoremap <C-K> <cmd>enew<cr>
+nnoremap <leader>bD <cmd>bd!<cr>
 " softwrap
 nnoremap <leader>w <cmd>set wrap!<cr>
 
@@ -162,6 +161,8 @@ vnoremap <A-S-k> :m-2<CR>gv=gv
 
 
 """ PLUGIN KEYBINDS
+" Fugitive
+nmap <F1> <cmd>G<cr>
 " Tagbar
 map <leader>t :TagbarToggle<CR>
 " Telescope
@@ -170,8 +171,11 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fl <cmd>Telescope resume<cr>
 nnoremap <leader>fo <cmd>Telescope oldfiles<cr>
 nnoremap <leader>fq <cmd>Telescope quickfix<cr>
+nnoremap <leader>fch <cmd>Telescope command_history <cr>
+nnoremap <leader>fsh <cmd>Telescope search_history initial_mode=normal <cr>
 nnoremap <leader>fm <cmd>Telescope keymaps<cr>
-nnoremap <M-k> <cmd>Telescope grep_string initial_mode=normal <cr>
+nnoremap <leader>fz <cmd>Telescope current_buffer_fuzzy_find<cr>
+nnoremap <leader>fk <cmd>Telescope grep_string initial_mode=normal <cr>
 " live grep highlighted text
 vnoremap <leader>fv "zy:Telescope live_grep initial_mode=normal <cr><C-r>z
 " Telescope + Git
