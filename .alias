@@ -158,4 +158,16 @@ bfuzz() {
   fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'
 }
 
+qalias() {
+  if [ $# -eq 0 ]
+    then
+      echo "No name supplied"
+      exit 1
+  fi
+  command=$(fc -nl -1)
+  name=$1 
+  echo "alias $name='$command'" >> ~/dotfiles/.private
+  source ~/dotfiles/.private
+}
+
 source ~/dotfiles/.private
