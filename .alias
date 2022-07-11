@@ -1,10 +1,6 @@
 # GENERAL
-alias nginx-toggle='sudo service apache2 stop && sudo service nginx start'
-alias apache-toggle='sudo service nginx stop && sudo service apache2 start'
 alias nginxr='sudo nginx -s reload'
 alias nginxt='sudo nginx -t'
-alias rd=rmdir
-alias run-emu='/home/jali/Android/Sdk/tools/emulator @pixel2'
 alias suwww='sudo su -l www-data -s /bin/bash'
 alias eval-ssh='eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa'
 alias lt="ls -ltrh"
@@ -30,10 +26,6 @@ alias gitl="git log"
 alias gits="git status"
 alias gitcam="git commit -am"
 alias gitf="git fetch"
-
-
-# PYTHON
-alias soact="source virtualenv/bin/activate"
 
 # FUNCTIONS
 
@@ -168,6 +160,10 @@ qalias() {
   name=$1 
   echo "alias $name='$command'" >> ~/dotfiles/.private
   source ~/dotfiles/.private
+}
+
+confirm() {
+    whiptail --defaultno --yesno "Ihanko varma?" 12 80
 }
 
 source ~/dotfiles/.private

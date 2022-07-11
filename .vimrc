@@ -75,6 +75,14 @@ set showtabline=2
 " better markdown display
 set conceallevel=2
 
+augroup BgHighlight
+    autocmd!
+    autocmd WinEnter * set colorcolumn=80
+    autocmd WinEnter * set cul
+    autocmd WinLeave * set nocul
+    autocmd WinLeave * set colorcolumn=0
+augroup END
+
 """ PLUGIN VARIABLES
 let g:fern#default_hidden = 1
 let g:vim_markdown_new_list_item_indent = 0
@@ -114,6 +122,33 @@ require('telescope').setup{
 }
 EOF
 
+function TeleVert ()
+    lua << EOF
+    require('telescope').setup{
+      defaults = {
+        layout_strategy = 'vertical',
+        layout_config = {
+          height = 0.95,
+          width = 0.90
+        }
+      }
+    }
+EOF
+endfunction
+function TeleHorizon ()
+    lua << EOF
+    require('telescope').setup{
+      defaults = {
+        layout_strategy = 'horizontal',
+        layout_config = {
+          height = 0.95,
+          width = 0.90
+        }
+      }
+    }
+EOF
+endfunction
+
 """ ABBREVIATIONS
 
 iabbrev <expr> <<d strftime("%Y-%m-%d")
@@ -126,6 +161,8 @@ iabbrev <<c ✓
 """ CUSTOM KEYBINDS
 " unset needless Shift+J command
 map <S-j> <Nop>
+" rebind repeat to more useful key
+nnoremap § .
 let mapleader = "\<Space>" 
 
 " move between splits
@@ -229,11 +266,13 @@ augroup FernEvents
   autocmd!
   autocmd FileType fern call FernInit()
 augroup END
+""" Flake8
+autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
 
 """ SESSION MANAGEMENT, source: https://dockyard.com/blog/2018/06/01/simple-vim-session-management-part-1
 let g:sessions_dir = '~/vim-sessions'
-exec 'nnoremap <f8> :so ' . g:sessions_dir. '/*.vim<C-D><BS><BS><BS><BS><BS>'
-exec 'nnoremap <S-f8> :Obsession ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
+exec 'nnoremap <f9> :so ' . g:sessions_dir. '/*.vim<C-D><BS><BS><BS><BS><BS>'
+exec 'nnoremap <S-f9> :Obsession ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
 
 """ External config files
 source ~/dotfiles/.coc.vimrc
