@@ -93,16 +93,18 @@ gitreb() {
   fi
 }
 gitreb-master() {
-    git fetch origin master:master
-    git stash
-    git rebase origin/master
-    git stash pop
+    #git fetch origin master:master
+    #git stash
+    #git rebase origin/master
+    #git stash pop
+    git pull --rebase origin master
 }
 gitreb-main() {
-    git fetch origin main:main
-    git stash
-    git rebase origin/main
-    git stash pop
+    #git fetch origin main:main
+    #git stash
+    #git rebase origin/main
+    #git stash pop
+    git pull --rebase origin main
 }
 
 gitfuzz() {

@@ -6,6 +6,7 @@ Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-obsession'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'Jakkara/telescope-command-palette.nvim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -77,7 +78,7 @@ set conceallevel=2
 
 augroup BgHighlight
     autocmd!
-    autocmd WinEnter * set colorcolumn=80
+    autocmd WinEnter * set colorcolumn=80,120
     autocmd WinEnter * set cul
     autocmd WinLeave * set nocul
     autocmd WinLeave * set colorcolumn=0
@@ -120,6 +121,20 @@ require('telescope').setup{
     }
   }
 }
+EOF
+
+lua << EOF
+require('telescope').setup({
+    extensions = {
+        command_palette = {
+            {"Git",
+                {"Add, current file", ":G add %"},
+                {"Diff, current file", ":G diff %"},
+            }
+        }
+    }
+})
+require('telescope').load_extension('command_palette')
 EOF
 
 function TeleVert ()
@@ -199,7 +214,8 @@ vnoremap <A-S-k> :m-2<CR>gv=gv
 
 """ PLUGIN KEYBINDS
 " Fugitive
-nmap <F1> <cmd>G<cr>
+nnoremap <F2> <cmd>G<cr>
+
 " Tagbar
 map <leader>t :TagbarToggle<CR>
 " Telescope
@@ -219,6 +235,10 @@ vnoremap <leader>fv "zy:Telescope live_grep initial_mode=normal <cr><C-r>z
 nnoremap <leader>gc <cmd>Telescope git_commits<cr>
 nnoremap <leader>gbc <cmd>Telescope git_bcommits<cr>
 nnoremap <leader>gs <cmd>Telescope git_status<cr>
+
+" Telescope + command_palette
+nnoremap <F1> <cmd>Telescope command_palette<cr>
+
 
 """ Bufferline
 nmap <Leader>1 <Plug>lightline#bufferline#go(1)
