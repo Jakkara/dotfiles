@@ -20,7 +20,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/tagbar'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'nvie/vim-flake8'
+Plug 'mhinz/vim-startify'
 call plug#end()
+autocmd FileType markdown call plug#begin() | Plug 'Jakkara/vim-checkbox' | call plug#end()
 
 """ GENERAL
 " disable backwards compat
