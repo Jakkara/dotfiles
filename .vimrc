@@ -118,6 +118,14 @@ if executable('rg')
     let g:rg_derive_root='true'
 endif
 let g:tagbar_width = 40
+let g:tagbar_sort = 0
+let g:tagbar_autofocus = 1
+let g:tagbar_compact = 1
+let g:tagbar_autoclose = 1
+let g:startify_session_dir = '~/vim-sessions'
+let g:startify_lists = [
+      \ { 'type': 'sessions',  'header': ['   Sessions']       },
+      \ ]
 
 """ ABBREVIATIONS
 
@@ -173,7 +181,7 @@ vnoremap <A-S-k> :m-2<CR>gv=gv
 nnoremap <F2> <cmd>G<cr>
 
 " Tagbar
-map <leader>t :TagbarToggle<CR>
+nnoremap <leader>t :TagbarToggle<CR>
 " Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
