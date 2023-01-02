@@ -42,6 +42,8 @@ set autoread
 set updatetime=750
 set mouse=a
 set shortmess+=c
+" react to terminal size changes and resize splits
+autocmd VimResized * wincmd =
 
 """ SYNTAX & EDITING
 set tabstop=4 softtabstop=4 shiftwidth=4
@@ -49,7 +51,7 @@ set list
 set smartindent
 set expandtab
 set incsearch
-set scrolloff=8
+set scrolloff=5
 set wildmenu
 set undodir=/home/jali/.vim/undodir
 set undofile
@@ -67,7 +69,7 @@ set nowrap
 set visualbell
 set colorcolumn=80,120
 set signcolumn=number
-hi CursorLine term=bold cterm=bold guibg=235 ctermbg=235
+hi CursorLine term=bold cterm=bold guibg=238 ctermbg=238
 highlight ColorColumn ctermbg=235
 highlight clear SignColumn
 " unset last search pattern register by hitting return
@@ -77,6 +79,8 @@ set noshowmode
 set showtabline=2
 " better markdown display
 set conceallevel=2
+" show syntax highlighting in fenced markdown blocks
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'json', 'sql']
 
 augroup BgHighlight
     autocmd!
@@ -89,10 +93,11 @@ augroup END
 """ PLUGIN VARIABLES
 let g:fern#default_hidden = 1
 let g:vim_markdown_new_list_item_indent = 0
+let g:vim_markdown_folding_disabled = 1
 let g:lightline = {
       \ 'colorscheme': 'OldHope',
       \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'relativepath', 'modified' ] ]
+      \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'relativepath', 'modified', 'gitbranch' ] ]
       \ },
       \ 'tabline': {
       \   'left': [ ['buffers'] ],
@@ -100,6 +105,9 @@ let g:lightline = {
       \ },
       \ 'component_expand': {
       \   'buffers': 'lightline#bufferline#buffers'
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
       \ },
       \ 'component_type': {
       \   'buffers': 'tabsel'
@@ -172,14 +180,17 @@ iabbrev <expr> <<d strftime("%Y-%m-%d")
 
 iabbrev <<- ------------------------------------------------------
             \<CR>------------------------------------------------------
-iabbrev <<= ============
+iabbrev <<= ==========
 iabbrev <<c ✓
 
 """ CUSTOM KEYBINDS
 " unset needless Shift+J command
 map <S-j> <Nop>
+map ZA <cmd>qa <cr>
 " rebind repeat to more useful key
 nnoremap § .
+" in Visual mode, press n to search for selection occurrences
+vnoremap n y/\V<C-R>=escape(@",'/\')<CR><CR>
 let mapleader = "\<Space>" 
 
 " move between splits
