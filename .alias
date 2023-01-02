@@ -20,6 +20,8 @@ alias v="nvim"
 alias nv="nvim"
 alias vim="nvim"
 alias e="exa -la"
+alias t='task'
+alias privates='vim  ~/dotfiles/.private'
 
 # GIT
 alias gitl="git log"
@@ -28,23 +30,6 @@ alias gitcam="git commit -am"
 alias gitf="git fetch"
 
 # FUNCTIONS
-
-dock-shell() {
-    docker-compose exec django bash -c "$@"
-}
-dbdump() {
-    today=$();
-    sudo mysqldump "$1" > "$1"-`date +%Y-%m-%d`.sql
-}
-xon() {
-    sudo phpenmod xdebug	
-    sudo service php"$1"-fpm restart
-}
-
-xoff() {
-    sudo phpdismod xdebug	
-    sudo service php"$1"-fpm restart
-}
 
 countdown() {
   date1=$((`date +%s` + $1)); 
@@ -93,18 +78,18 @@ gitreb() {
   fi
 }
 gitreb-master() {
-    #git fetch origin master:master
-    #git stash
-    #git rebase origin/master
-    #git stash pop
     git pull --rebase origin master
 }
 gitreb-main() {
-    #git fetch origin main:main
-    #git stash
-    #git rebase origin/main
-    #git stash pop
     git pull --rebase origin main
+}
+
+_is_dirty() {
+    if [ -z "$(git status --untracked-files=no --porcelain)" ]; then 
+        echo "True"
+    else
+        echo "False"
+    fi
 }
 
 gitfuzz() {
@@ -112,7 +97,13 @@ gitfuzz() {
     local branches branch
     branches=$(git branch -a) &&
     branch=$(echo "$branches" | fzf +s +m -e) &&
-    git checkout $(echo "$branch" | sed "s:.* remotes/origin/::" | sed "s:.* ::")
+    if [ -z "$(git status --untracked-files=no --porcelain)" ]; then 
+        git checkout $(echo "$branch" | sed "s:.* remotes/origin/::" | sed "s:.* ::")
+    else
+        git stash
+        git checkout $(echo "$branch" | sed "s:.* remotes/origin/::" | sed "s:.* ::")
+        git stash pop
+    fi
 }
 
 vimfuzz() {
