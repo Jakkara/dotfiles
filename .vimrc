@@ -153,6 +153,11 @@ nnoremap <M-l> <C-W><C-L>
 nnoremap <M-h> <C-W><C-H>
 nnoremap <C-q> <C-w>q
 
+" highlight occurrences of current word
+nnoremap <leader>* *N
+
+" show marks
+nnoremap <leader>m :<C-u>marks<CR>:normal! `
 "vimrc
 nnoremap <leader>vimrc <cmd>e ~/.vimrc<cr>
 nnoremap <leader>rvimrc <cmd>so ~/.vimrc<cr>
@@ -175,10 +180,15 @@ inoremap <A-S-k> <Esc>:m-2<CR>==gi
 vnoremap <A-S-j> :m'>+<CR>gv=gv
 vnoremap <A-S-k> :m-2<CR>gv=gv
 
+" python specific
+autocmd FileType python nnoremap <buffer> <leader>R :!python3 %<CR>
 
 """ PLUGIN KEYBINDS
 " Fugitive
 nnoremap <F2> <cmd>G<cr>
+nnoremap <F3> <cmd>G log<cr>
+nnoremap <leader>ga <cmd>G add %<cr>
+nnoremap <leader>gf <cmd>G commit -m "f"<cr>
 
 " Tagbar
 nnoremap <leader>t :TagbarToggle<CR>
@@ -253,6 +263,8 @@ augroup FernEvents
 augroup END
 """ Flake8
 autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
+""" Mypy
+autocmd FileType python map <buffer> <S-F8> :!mypy %<CR>
 
 """ SESSION MANAGEMENT, source: https://dockyard.com/blog/2018/06/01/simple-vim-session-management-part-1
 let g:sessions_dir = '~/vim-sessions'
