@@ -1,10 +1,12 @@
 """ CoC plugins. Run install commands manually
-"CocInstall coc-json coc-tsserver
+"CocInstall coc-tsserver coc-eslint coc-json coc-prettier coc-css
 "CocInstall coc-pyright
 
 " PERSONAL
 nnoremap <leader>K <cmd>call CocActionAsync('jumpDefinition') <cr>
 nnoremap <silent><leader>p <cmd>call CocAction('jumpDefinition', 'split')<cr>
+nnoremap <silent><leader>P <cmd>call CocAction('jumpDefinition', 'vsplit')<cr>
+nnoremap <silent><leader>T <cmd>call CocAction('jumpTypeDefinition', 'split')<cr>
 "
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
