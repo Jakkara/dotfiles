@@ -119,61 +119,6 @@ if executable('rg')
 endif
 let g:tagbar_width = 40
 
-""" PLUGIN CONFIG
-lua << EOF
-require('telescope').setup{
-  defaults = {
-    file_ignore_patterns = { "poetry.lock" },
-    layout_strategy = 'horizontal',
-    layout_config = {
-      height = 0.95,
-      width = 0.90
-    }
-  }
-}
-EOF
-
-lua << EOF
-require('telescope').setup({
-    extensions = {
-        command_palette = {
-            {"Git",
-                {"Add, current file", ":G add %"},
-                {"Diff, current file", ":G diff %"},
-            }
-        }
-    }
-})
-require('telescope').load_extension('command_palette')
-EOF
-
-function TeleVert ()
-    lua << EOF
-    require('telescope').setup{
-      defaults = {
-        layout_strategy = 'vertical',
-        layout_config = {
-          height = 0.95,
-          width = 0.90
-        }
-      }
-    }
-EOF
-endfunction
-function TeleHorizon ()
-    lua << EOF
-    require('telescope').setup{
-      defaults = {
-        layout_strategy = 'horizontal',
-        layout_config = {
-          height = 0.95,
-          width = 0.90
-        }
-      }
-    }
-EOF
-endfunction
-
 """ ABBREVIATIONS
 
 iabbrev <expr> <<d strftime("%Y-%m-%d")
@@ -203,8 +148,6 @@ nnoremap <C-q> <C-w>q
 "vimrc
 nnoremap <leader>vimrc <cmd>e ~/.vimrc<cr>
 nnoremap <leader>rvimrc <cmd>so ~/.vimrc<cr>
-"notetaking
-nnoremap <leader>notes <cmd>e ~/Notes/Notes.md<cr>
 "save with doublespace
 nnoremap <leader> <cmd>w<cr>
 " buffer navigation
@@ -274,6 +217,7 @@ nmap <Leader>c7 <Plug>lightline#bufferline#delete(7)
 nmap <Leader>c8 <Plug>lightline#bufferline#delete(8)
 nmap <Leader>c9 <Plug>lightline#bufferline#delete(9)
 nmap <Leader>c0 <Plug>lightline#bufferline#delete(10)
+
 """ Fern, configs from https://bluz71.github.io/2017/05/21/vim-plugins-i-like.html
 noremap <silent> <leader>e :Fern . -drawer -toggle -width=40<CR>
 noremap <silent> <Leader>E :Fern . -drawer -reveal=% -width=40<CR><C-w>=
@@ -310,3 +254,62 @@ exec 'nnoremap <S-f9> :Obsession ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><B
 """ External config files
 source ~/dotfiles/.coc.vimrc
 source ~/dotfiles/.private.vimrc
+
+""" PLUGIN CONFIG
+lua <<EOF
+require('telescope').setup{
+  defaults = {
+    file_ignore_patterns = { "poetry.lock" },
+    layout_strategy = 'horizontal',
+    layout_config = {
+      height = 0.95,
+      width = 0.90
+    }
+  }
+}
+EOF
+
+lua << EOF
+require('telescope').setup({
+    extensions = {
+        command_palette = {
+            {"Git",
+                {"Add, current file", ":G add %"},
+                {"Diff, current file", ":G diff %"},
+            },
+            {"Vim",
+                {"Autosave", ":autocmd CursorHold <buffer> silent write"},
+                {"Copy current file path", "let @+ = expand('%')"},
+            }
+        }
+    }
+})
+require('telescope').load_extension('command_palette')
+EOF
+
+function TeleVert ()
+    lua << EOF
+    require('telescope').setup{
+      defaults = {
+        layout_strategy = 'vertical',
+        layout_config = {
+          height = 0.95,
+          width = 0.90
+        }
+      }
+    }
+EOF
+endfunction
+function TeleHorizon ()
+    lua << EOF
+    require('telescope').setup{
+      defaults = {
+        layout_strategy = 'horizontal',
+        layout_config = {
+          height = 0.95,
+          width = 0.90
+        }
+      }
+    }
+EOF
+endfunction
