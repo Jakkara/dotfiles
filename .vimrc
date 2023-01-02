@@ -158,6 +158,10 @@ nnoremap <leader>* *N
 
 " show marks
 nnoremap <leader>m :<C-u>marks<CR>:normal! `
+
+" open terminal
+nnoremap <leader>C <cmd>bot 16sp \| term <cr>
+
 "vimrc
 nnoremap <leader>vimrc <cmd>e ~/.vimrc<cr>
 nnoremap <leader>rvimrc <cmd>so ~/.vimrc<cr>
