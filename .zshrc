@@ -120,7 +120,7 @@ source ~/.local/bin/bashmarks.sh
 autoload -U +X bashcompinit && bashcompinit
 source /home/jali/Applications/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-        source /etc/profile.d/vte.sh
+    source /etc/profile.d/vte.sh
 fi
 #ln -s $(which fdfind) ~/.local/bin/fd
 #
@@ -128,13 +128,28 @@ fi
 export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
 export LESS=' -R'
 
-# add Pulumi to the PATH
-export PATH=$PATH:$HOME/.pulumi/bin
-
 # Add FZF keybindings
 source /usr/share/doc/fzf/examples/key-bindings.zsh
 # Add FZF autocomplete
 source /usr/share/doc/fzf/examples/completion.zsh
-if [ "$TMUX" = "" ]; then tmux; fi
+# Autostart in tmux
+#if [ "$TMUX" = "" ]
+#then 
+#    tmux
+#fi
 
 export PATH="$HOME/.poetry/bin:$PATH"
+export PATH="$HOME/Applications/flutter/bin:$PATH"
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+#
+# Run only once to link fd
+#ln -s $(which fdfind) ~/.local/bin/fd
+
+# Used to disable middle click paste
+xbindkeys
+
+# Show taskwarrior on open
+task
