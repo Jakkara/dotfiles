@@ -144,12 +144,22 @@ export PATH="$HOME/Applications/flutter/bin:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+fancy-ctrl-z () {
+  if [[ $#BUFFER -eq 0 ]]; then
+    BUFFER="fg"
+    zle accept-line
+  else
+    zle push-input
+    zle clear-screen
+  fi
+}
+zle -N fancy-ctrl-z
+bindkey '^Z' fancy-ctrl-z
+#
 #
 # Run only once to link fd
 #ln -s $(which fdfind) ~/.local/bin/fd
 
 # Used to disable middle click paste
 xbindkeys
-
-# Show taskwarrior on open
-task
