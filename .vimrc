@@ -21,6 +21,8 @@ Plug 'preservim/tagbar'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'nvie/vim-flake8'
 Plug 'mhinz/vim-startify'
+Plug 'wfxr/minimap.vim'
+Plug 'terryma/vim-expand-region'
 call plug#end()
 autocmd FileType markdown call plug#begin() | Plug 'Jakkara/vim-checkbox' | call plug#end()
 
@@ -58,6 +60,7 @@ set undofile
 set breakindent
 set splitbelow
 set splitright
+set textwidth=120
 
 """ STYLE
 colorscheme dracula
@@ -131,6 +134,7 @@ let g:startify_lists = [
 
 iabbrev <expr> <<d strftime("%Y-%m-%d")
 
+iabbrev §b ```
 iabbrev <<- ------------------------------------------------------
             \<CR>------------------------------------------------------
 iabbrev <<= ==========
@@ -160,7 +164,7 @@ nnoremap <leader>* *N
 nnoremap <leader>m :<C-u>marks<CR>:normal! `
 
 " open terminal
-nnoremap <leader>C <cmd>bot 16sp \| term <cr>
+nnoremap <F5> <cmd>bot 16sp \| term <cr>
 
 "vimrc
 nnoremap <leader>vimrc <cmd>e ~/.vimrc<cr>
@@ -269,6 +273,20 @@ augroup END
 autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
 """ Mypy
 autocmd FileType python map <buffer> <S-F8> :!mypy %<CR>
+
+" Minimap
+hi MinimapCurrentLine ctermfg=Green guibg=238 ctermbg=238
+let g:minimap_highlight = 'MinimapCurrentLine'
+let g:minimap_width = 12
+let g:minimap_cursor_color = 'Function'
+let g:minimap_git_colors = 1
+let g:minimap_highlight_range = 0
+let g:minimap_highlight_search = 1
+nnoremap <leader>M <cmd>MinimapToggle <cr>
+
+" expand-region
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
 
 """ SESSION MANAGEMENT, source: https://dockyard.com/blog/2018/06/01/simple-vim-session-management-part-1
 let g:sessions_dir = '~/vim-sessions'
