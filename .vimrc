@@ -7,6 +7,7 @@ Plug 'tpope/vim-obsession'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'Jakkara/telescope-command-palette.nvim'
+Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 Plug 'jremmen/vim-ripgrep'
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
@@ -72,8 +73,11 @@ set nowrap
 set visualbell
 set colorcolumn=80,120
 set signcolumn=number
-hi CursorLine term=bold cterm=bold guibg=238 ctermbg=238
-highlight ColorColumn ctermbg=235
+highlight EndOfBuffer ctermbg=NONE
+highlight Normal ctermfg=white
+highlight Normal ctermbg=234
+highlight CursorLine ctermbg=236
+highlight ColorColumn ctermbg=236
 highlight clear SignColumn
 " unset last search pattern register by hitting return
 nnoremap <BS> :noh<CR>
@@ -196,6 +200,7 @@ autocmd FileType python nnoremap <buffer> <leader>R :!python3 %<CR>
 nnoremap <F2> <cmd>G<cr>
 nnoremap <F3> <cmd>G log<cr>
 nnoremap <leader>ga <cmd>G add %<cr>
+nnoremap <leader>gm <cmd>G meld<cr>
 nnoremap <leader>gf <cmd>G commit -m "f"<cr>
 
 " Tagbar
@@ -203,14 +208,15 @@ nnoremap <leader>t :TagbarToggle<CR>
 " Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fr <cmd>Telescope resume<cr>
 nnoremap <leader>fl <cmd>Telescope resume<cr>
 nnoremap <leader>fo <cmd>Telescope oldfiles<cr>
 nnoremap <leader>fq <cmd>Telescope quickfix<cr>
 nnoremap <leader>fch <cmd>Telescope command_history <cr>
-nnoremap <leader>fsh <cmd>Telescope search_history initial_mode=normal <cr>
 nnoremap <leader>fm <cmd>Telescope keymaps<cr>
 nnoremap <leader>fz <cmd>Telescope current_buffer_fuzzy_find<cr>
 nnoremap <leader>fk <cmd>Telescope grep_string initial_mode=normal <cr>
+" Telescope, live grep args
 " live grep highlighted text
 vnoremap <leader>fv "zy:Telescope live_grep initial_mode=normal <cr><C-r>z
 " Telescope + Git
@@ -245,8 +251,8 @@ nmap <Leader>c9 <Plug>lightline#bufferline#delete(9)
 nmap <Leader>c0 <Plug>lightline#bufferline#delete(10)
 
 """ Fern, configs from https://bluz71.github.io/2017/05/21/vim-plugins-i-like.html
-noremap <silent> <leader>e :Fern . -drawer -toggle -width=40<CR>
-noremap <silent> <Leader>E :Fern . -drawer -reveal=% -width=40<CR><C-w>=
+noremap <silent> <leader>e :Fern . -drawer -right -toggle -width=40<CR>
+noremap <silent> <Leader>E :Fern . -drawer -right -reveal=% -width=40<CR><C-w>=
 function! FernInit() abort
   nmap <buffer><expr>
         \ <Plug>(fern-my-open-expand-collapse)
@@ -309,9 +315,7 @@ require('telescope').setup{
     }
   }
 }
-EOF
 
-lua << EOF
 require('telescope').setup({
     extensions = {
         command_palette = {
@@ -327,6 +331,9 @@ require('telescope').setup({
     }
 })
 require('telescope').load_extension('command_palette')
+
+vim.keymap.set('n', '<leader>fa', require("telescope").extensions.live_grep_args.live_grep_args, { noremap = true })
+require("telescope").load_extension("live_grep_args")
 EOF
 
 function TeleVert ()
