@@ -24,6 +24,8 @@ Plug 'nvie/vim-flake8'
 Plug 'mhinz/vim-startify'
 Plug 'wfxr/minimap.vim'
 Plug 'terryma/vim-expand-region'
+"Plug 'sheerun/vim-polyglot'
+Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 autocmd FileType markdown call plug#begin() | Plug 'Jakkara/vim-checkbox' | call plug#end()
 
@@ -63,8 +65,17 @@ set splitbelow
 set splitright
 set textwidth=120
 
-""" STYLE
+""" THEME
 colorscheme dracula
+highlight EndOfBuffer ctermbg=NONE
+highlight Normal ctermfg=white
+highlight Normal ctermbg=234
+highlight pythonComment ctermfg=4
+highlight CursorLine ctermbg=236
+highlight ColorColumn ctermbg=236
+highlight clear SignColumn
+
+""" STYLE
 set cursorline
 set hlsearch
 set relativenumber
@@ -73,12 +84,6 @@ set nowrap
 set visualbell
 set colorcolumn=80,120
 set signcolumn=number
-highlight EndOfBuffer ctermbg=NONE
-highlight Normal ctermfg=white
-highlight Normal ctermbg=234
-highlight CursorLine ctermbg=236
-highlight ColorColumn ctermbg=236
-highlight clear SignColumn
 " unset last search pattern register by hitting return
 nnoremap <BS> :noh<CR>
 " compat configs for lightline
@@ -298,6 +303,15 @@ vmap <C-v> <Plug>(expand_region_shrink)
 let g:sessions_dir = '~/vim-sessions'
 exec 'nnoremap <f9> :so ' . g:sessions_dir. '/*.vim<C-D><BS><BS><BS><BS><BS>'
 exec 'nnoremap <S-f9> :Obsession ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
+
+" Debug function for getting syntax object for the color scheme
+nmap <leader>z :call <SID>SynStack()<CR>
+function! <SID>SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
 
 """ External config files
 source ~/dotfiles/.coc.vimrc
