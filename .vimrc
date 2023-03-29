@@ -71,6 +71,14 @@ highlight EndOfBuffer ctermbg=NONE
 highlight Normal ctermfg=white
 highlight Normal ctermbg=234
 highlight pythonComment ctermfg=4
+function MyCustomHighlights()
+    highlight semshiImported ctermfg=255
+    highlight semshiGlobal ctermfg=NONE
+    highlight semshiBuiltin ctermfg=84
+    highlight semshiSelected ctermfg=49 ctermbg=236
+    highlight semshiParameter ctermfg=255 cterm=bold
+endfunction
+autocmd FileType python call MyCustomHighlights()
 highlight CursorLine ctermbg=236
 highlight ColorColumn ctermbg=236
 highlight clear SignColumn
@@ -305,13 +313,14 @@ exec 'nnoremap <f9> :so ' . g:sessions_dir. '/*.vim<C-D><BS><BS><BS><BS><BS>'
 exec 'nnoremap <S-f9> :Obsession ' . g:sessions_dir . '/*.vim<C-D><BS><BS><BS><BS><BS>'
 
 " Debug function for getting syntax object for the color scheme
-nmap <leader>z :call <SID>SynStack()<CR>
+nmap <leader>zo :call <SID>SynStack()<CR>
 function! <SID>SynStack()
   if !exists("*synstack")
     return
   endif
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
+nmap <leader>zc <cmd>echo synIDattr(synIDtrans(synID(line("."), col("."), 1)), "fg")<cr>
 
 """ External config files
 source ~/dotfiles/.coc.vimrc
