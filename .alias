@@ -77,10 +77,10 @@ gitreb() {
   fi
 }
 gitreb-master() {
-    git pull --rebase origin master
+    git pull --autostash --rebase origin master
 }
 gitreb-main() {
-    git pull --rebase origin main
+    git pull --autostash --rebase origin main
 }
 
 _is_dirty() {

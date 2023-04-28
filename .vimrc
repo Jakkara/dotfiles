@@ -22,9 +22,6 @@ Plug 'preservim/tagbar'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'nvie/vim-flake8'
 Plug 'mhinz/vim-startify'
-Plug 'wfxr/minimap.vim'
-Plug 'terryma/vim-expand-region'
-"Plug 'sheerun/vim-polyglot'
 Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 autocmd FileType markdown call plug#begin() | Plug 'Jakkara/vim-checkbox' | call plug#end()
@@ -72,7 +69,7 @@ highlight Normal ctermfg=white
 highlight Normal ctermbg=234
 highlight pythonComment ctermfg=4
 function MyCustomHighlights()
-    highlight semshiImported ctermfg=255
+    highlight semshiImported ctermfg=NONE cterm=NONE
     highlight semshiGlobal ctermfg=NONE
     highlight semshiBuiltin ctermfg=84
     highlight semshiSelected ctermfg=49 ctermbg=236
@@ -182,7 +179,7 @@ nnoremap <leader>m :<C-u>marks<CR>:normal! `
 
 " open terminal
 nnoremap <F5> <cmd>bot 16sp \| term <cr>
-
+                
 "vimrc
 nnoremap <leader>vimrc <cmd>e ~/.vimrc<cr>
 nnoremap <leader>rvimrc <cmd>so ~/.vimrc<cr>
@@ -264,8 +261,8 @@ nmap <Leader>c9 <Plug>lightline#bufferline#delete(9)
 nmap <Leader>c0 <Plug>lightline#bufferline#delete(10)
 
 """ Fern, configs from https://bluz71.github.io/2017/05/21/vim-plugins-i-like.html
-noremap <silent> <leader>e :Fern . -drawer -right -toggle -width=40<CR>
-noremap <silent> <Leader>E :Fern . -drawer -right -reveal=% -width=40<CR><C-w>=
+noremap <silent> <leader>e :Fern . -drawer -right -toggle -width=50<CR>
+noremap <silent> <Leader>E :Fern . -drawer -right -reveal=% -width=50<CR><C-w>=
 function! FernInit() abort
   nmap <buffer><expr>
         \ <Plug>(fern-my-open-expand-collapse)
@@ -292,16 +289,6 @@ augroup END
 autocmd FileType python map <buffer> <F8> :call flake8#Flake8()<CR>
 """ Mypy
 autocmd FileType python map <buffer> <S-F8> :!mypy %<CR>
-
-" Minimap
-hi MinimapCurrentLine ctermfg=Green guibg=238 ctermbg=238
-let g:minimap_highlight = 'MinimapCurrentLine'
-let g:minimap_width = 12
-let g:minimap_cursor_color = 'Function'
-let g:minimap_git_colors = 1
-let g:minimap_highlight_range = 0
-let g:minimap_highlight_search = 1
-nnoremap <leader>M <cmd>MinimapToggle <cr>
 
 " expand-region
 vmap v <Plug>(expand_region_expand)
