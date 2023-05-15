@@ -82,7 +82,6 @@ gitreb-master() {
 gitreb-main() {
     git pull --autostash --rebase origin main
 }
-
 _is_dirty() {
     if [ -z "$(git status --untracked-files=no --porcelain)" ]; then 
         echo "True"

@@ -23,6 +23,7 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'nvie/vim-flake8'
 Plug 'mhinz/vim-startify'
 Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
+Plug 'brooth/far.vim'
 call plug#end()
 autocmd FileType markdown call plug#begin() | Plug 'Jakkara/vim-checkbox' | call plug#end()
 
@@ -202,17 +203,28 @@ inoremap <A-S-k> <Esc>:m-2<CR>==gi
 vnoremap <A-S-j> :m'>+<CR>gv=gv
 vnoremap <A-S-k> :m-2<CR>gv=gv
 
-" python specific
+" Python specific
 autocmd FileType python nnoremap <buffer> <leader>R :!python3 %<CR>
+" Jump to test file
+nnoremap <leader>ft <cmd>execute 'edit **/test_' . resolve(expand('%:t')) <cr>
 
 """ PLUGIN KEYBINDS
-" Fugitive
+" Git + Telescope
+nnoremap <leader>gfl <cmd>Telescope git_bcommits<cr>
+nnoremap <leader>gs <cmd>Telescope git_status<cr>
+" Git + Fugitive
 nnoremap <F2> <cmd>G<cr>
 nnoremap <F3> <cmd>G log<cr>
 nnoremap <leader>ga <cmd>G add %<cr>
 nnoremap <leader>gm <cmd>G meld<cr>
+nnoremap <leader>gb <cmd>G blame<cr>
 nnoremap <leader>gf <cmd>G commit -m "f"<cr>
-
+function MeldToLastCommit()
+    let latest_commit = trim(execute('G rev-list -1 HEAD %'))
+    execute printf("G commit --no-verify --fixup=%s", latest_commit)
+    execute printf("G remake-to %s", latest_commit)
+endfunction
+nnoremap <leader>glm <cmd>call MeldToLastCommit()<cr>
 " Tagbar
 nnoremap <leader>t :TagbarToggle<CR>
 " Telescope
@@ -222,17 +234,12 @@ nnoremap <leader>fr <cmd>Telescope resume<cr>
 nnoremap <leader>fl <cmd>Telescope resume<cr>
 nnoremap <leader>fo <cmd>Telescope oldfiles<cr>
 nnoremap <leader>fq <cmd>Telescope quickfix<cr>
-nnoremap <leader>fch <cmd>Telescope command_history <cr>
 nnoremap <leader>fm <cmd>Telescope keymaps<cr>
 nnoremap <leader>fz <cmd>Telescope current_buffer_fuzzy_find<cr>
 nnoremap <leader>fk <cmd>Telescope grep_string initial_mode=normal <cr>
 " Telescope, live grep args
 " live grep highlighted text
 vnoremap <leader>fv "zy:Telescope live_grep initial_mode=normal <cr><C-r>z
-" Telescope + Git
-nnoremap <leader>gc <cmd>Telescope git_commits<cr>
-nnoremap <leader>gbc <cmd>Telescope git_bcommits<cr>
-nnoremap <leader>gs <cmd>Telescope git_status<cr>
 
 " Telescope + command_palette
 nnoremap <F1> <cmd>Telescope command_palette<cr>
