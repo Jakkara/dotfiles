@@ -22,8 +22,8 @@ Plug 'preservim/tagbar'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'nvie/vim-flake8'
 Plug 'mhinz/vim-startify'
-Plug 'numirias/semshi', { 'do': ':UpdateRemotePlugins' }
 Plug 'brooth/far.vim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
 autocmd FileType markdown call plug#begin() | Plug 'Jakkara/vim-checkbox' | call plug#end()
 
@@ -64,22 +64,21 @@ set splitright
 set textwidth=120
 
 """ THEME
-colorscheme dracula
-highlight EndOfBuffer ctermbg=NONE
-highlight Normal ctermfg=white
-highlight Normal ctermbg=234
-highlight pythonComment ctermfg=4
-function MyCustomHighlights()
-    highlight semshiImported ctermfg=NONE cterm=NONE
-    highlight semshiGlobal ctermfg=NONE
-    highlight semshiBuiltin ctermfg=84
-    highlight semshiSelected ctermfg=49 ctermbg=236
-    highlight semshiParameter ctermfg=255 cterm=bold
+function! DraculaHighlights() abort
+    highlight EndOfBuffer ctermbg=NONE
+    highlight Normal ctermfg=white
+    highlight Normal ctermbg=234
+    highlight pythonComment ctermfg=4
+    highlight CursorLine ctermbg=236
+    highlight ColorColumn ctermbg=236
+    highlight clear SignColumn
 endfunction
-autocmd FileType python call MyCustomHighlights()
-highlight CursorLine ctermbg=236
-highlight ColorColumn ctermbg=236
-highlight clear SignColumn
+augroup Colors
+    autocmd!
+    autocmd ColorScheme dracula runtime after/plugin/dracula.vim
+    autocmd ColorScheme dracula call DraculaHighlights()
+augroup END
+colorscheme dracula
 
 """ STYLE
 set cursorline
@@ -343,7 +342,10 @@ require('telescope').setup({
             {"Vim",
                 {"Autosave", ":autocmd CursorHold <buffer> silent write"},
                 {"Copy current file path", "let @+ = expand('%')"},
-            }
+            },
+            {"Pyright",
+                {"Restart server", ":CocCommand pyright.restartserver"},
+            },
         }
     }
 })
@@ -351,6 +353,21 @@ require('telescope').load_extension('command_palette')
 
 vim.keymap.set('n', '<leader>fa', require("telescope").extensions.live_grep_args.live_grep_args, { noremap = true })
 require("telescope").load_extension("live_grep_args")
+
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gn",
+      node_incremental = "gm",
+      node_decremental = "gl",
+    },
+  },
+}
 EOF
 
 function TeleVert ()
