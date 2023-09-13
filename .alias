@@ -21,6 +21,8 @@ alias nv="nvim"
 alias vim="nvim"
 alias e="exa -la"
 alias privates='vim  ~/dotfiles/.private'
+# Enable alias expansion with watch
+alias watch='watch -c '
 
 # GIT
 alias gitl="git log"
@@ -104,21 +106,13 @@ gitfuzz() {
     fi
 }
 
-vimfuzz() {
-    vim `bfuzz`
-}
-
-gnome-restart() {
-    busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'Meta.restart("Restarting...")'
-} 
-
-cdv() {
-    local dst="$(command vifm --choose-dir - "$@")"
-    if [ -z "$dst" ]; then
-        echo 'Directory picking cancelled/failed'
-        return 1
-    fi
-    cd "$dst"
+# checkout git branch (including remote branches), sorted by most recent commit, limit 30 last branches
+fgb() {
+  local branches branch
+  branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
+  branch=$(echo "$branches" |
+           fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+  git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
 git-reset() {
@@ -134,9 +128,15 @@ git-reset() {
       ;;
   esac
 }
+
+gnome-restart() {
+    busctl --user call org.gnome.Shell /org/gnome/Shell org.gnome.Shell Eval s 'Meta.restart("Restarting...")'
+} 
+
 bdiff() {
   git diff --name-only --diff-filter=d | xargs bat --diff
 }
+
 bfuzz() {
   fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'
 }
@@ -153,6 +153,15 @@ qalias() {
   source ~/dotfiles/.private
 }
 
+cheat() {
+  if [ $# -eq 0 ]
+    then
+      echo "No program supplied"
+      exit 1
+  fi
+  program=$1 
+  curl "cheat.sh/$program"
+}
 confirm() {
     whiptail --defaultno --yesno "Ihanko varma?" 12 80
 }

@@ -13,13 +13,12 @@ Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-git-status.vim'
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'godlygeek/tabular'
-Plug 'preservim/vim-markdown'
 Plug 'itchyny/lightline.vim'
 Plug 'mengelbrecht/lightline-bufferline'
 Plug 'airblade/vim-gitgutter'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'preservim/tagbar'
-Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'sainnhe/sonokai'
 Plug 'nvie/vim-flake8'
 Plug 'mhinz/vim-startify'
 Plug 'brooth/far.vim'
@@ -61,24 +60,15 @@ set undofile
 set breakindent
 set splitbelow
 set splitright
-set textwidth=120
 
 """ THEME
-function! DraculaHighlights() abort
-    highlight EndOfBuffer ctermbg=NONE
-    highlight Normal ctermfg=white
-    highlight Normal ctermbg=234
-    highlight pythonComment ctermfg=4
-    highlight CursorLine ctermbg=236
-    highlight ColorColumn ctermbg=236
-    highlight clear SignColumn
-endfunction
-augroup Colors
-    autocmd!
-    autocmd ColorScheme dracula runtime after/plugin/dracula.vim
-    autocmd ColorScheme dracula call DraculaHighlights()
-augroup END
-colorscheme dracula
+if has('termguicolors')
+  set termguicolors
+endif
+let g:sonokai_style = 'atlantis'
+let g:sonokai_better_performance = 1
+let g:sonokai_colors_override = {'bg0': ['#1e222a', '235']}
+colorscheme sonokai
 
 """ STYLE
 set cursorline
@@ -112,7 +102,7 @@ let g:fern#default_hidden = 1
 let g:vim_markdown_new_list_item_indent = 0
 let g:vim_markdown_folding_disabled = 1
 let g:lightline = {
-      \ 'colorscheme': 'OldHope',
+      \ 'colorscheme': 'sonokai',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ], [ 'readonly', 'relativepath', 'modified', 'gitbranch' ] ]
       \ },
@@ -134,7 +124,8 @@ let g:lightline#bufferline#show_number = 2
 if executable('rg')
     let g:rg_derive_root='true'
 endif
-let g:tagbar_width = 40
+let g:tagbar_height = 20
+let g:tagbar_position = 'rightbelow horizontal'
 let g:tagbar_sort = 0
 let g:tagbar_autofocus = 1
 let g:tagbar_compact = 1
@@ -143,16 +134,6 @@ let g:startify_session_dir = '~/vim-sessions'
 let g:startify_lists = [
       \ { 'type': 'sessions',  'header': ['   Sessions']       },
       \ ]
-
-""" ABBREVIATIONS
-
-iabbrev <expr> <<d strftime("%Y-%m-%d")
-
-iabbrev §b ```
-iabbrev <<- ------------------------------------------------------
-            \<CR>------------------------------------------------------
-iabbrev <<= ==========
-iabbrev <<c ✓
 
 """ CUSTOM KEYBINDS
 " unset needless Shift+J command
@@ -214,7 +195,10 @@ nnoremap <leader>gs <cmd>Telescope git_status<cr>
 " Git + Fugitive
 nnoremap <F2> <cmd>G<cr>
 nnoremap <F3> <cmd>G log<cr>
+nnoremap <F4> <cmd>G log %<cr>
 nnoremap <leader>ga <cmd>G add %<cr>
+nnoremap <leader>gl <cmd>G log --oneline<cr>
+nnoremap <leader>gL <cmd>G log --oneline %<cr>
 nnoremap <leader>gm <cmd>G meld<cr>
 nnoremap <leader>gb <cmd>G blame<cr>
 nnoremap <leader>gf <cmd>G commit -m "f"<cr>
@@ -223,7 +207,7 @@ function MeldToLastCommit()
     execute printf("G commit --no-verify --fixup=%s", latest_commit)
     execute printf("G remake-to %s", latest_commit)
 endfunction
-nnoremap <leader>glm <cmd>call MeldToLastCommit()<cr>
+nnoremap <leader>gM <cmd>call MeldToLastCommit()<cr>
 " Tagbar
 nnoremap <leader>t :TagbarToggle<CR>
 " Telescope
@@ -267,8 +251,8 @@ nmap <Leader>c9 <Plug>lightline#bufferline#delete(9)
 nmap <Leader>c0 <Plug>lightline#bufferline#delete(10)
 
 """ Fern, configs from https://bluz71.github.io/2017/05/21/vim-plugins-i-like.html
-noremap <silent> <leader>e :Fern . -drawer -right -toggle -width=50<CR>
-noremap <silent> <Leader>E :Fern . -drawer -right -reveal=% -width=50<CR><C-w>=
+noremap <silent> <leader>EE :Fern . -drawer -right -toggle -width=50<CR>
+noremap <silent> <Leader>ER :Fern . -drawer -right -reveal=% -width=50<CR><C-w>=
 function! FernInit() abort
   nmap <buffer><expr>
         \ <Plug>(fern-my-open-expand-collapse)
@@ -342,9 +326,11 @@ require('telescope').setup({
             {"Vim",
                 {"Autosave", ":autocmd CursorHold <buffer> silent write"},
                 {"Copy current file path", "let @+ = expand('%')"},
+                {"Reload vimrc", "so ~/.vimrc"},
+                {"Edit vimrc", "e ~/.vimrc"},
             },
             {"Pyright",
-                {"Restart server", ":CocCommand pyright.restartserver"},
+                {"Restart server", "CocCommand pyright.restartserver"},
             },
         }
     }

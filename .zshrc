@@ -58,7 +58,7 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(poetry git)
+plugins=(poetry git fzf-tab)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -107,6 +107,18 @@ SPACESHIP_PROMPT_ORDER=(
 # Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
 #prompt spaceship
+
+# fzf-tab configs
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
 
 source /home/jali/.alias
 export PATH=$PATH:~/scripts
