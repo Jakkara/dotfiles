@@ -1,16 +1,13 @@
+# CodeWhisperer pre block. Keep at the top of this file.
+[[ -f "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.pre.zsh"
 export EDITOR=vim
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/jali/.oh-my-zsh"
+export ZSH="/Users/jali/.oh-my-zsh"
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-#ZSH_THEME="agnoster"
-ZSH_THEME="spaceship"
+source /opt/homebrew/opt/spaceship/spaceship.zsh
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -58,7 +55,7 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(poetry git fzf-tab)
+plugins=(git zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -83,11 +80,13 @@ source $ZSH/oh-my-zsh.sh
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
+setopt HIST_IGNORE_SPACE
+bindkey "^Xa" _expand_alias
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-fpath=($fpath "/home/jali/.zfunctions")
+fpath=($fpath "/Users/jali/.zfunctions")
 
 SPACESHIP_PROMPT_ORDER=(
   time          # Time stamps section
@@ -95,10 +94,11 @@ SPACESHIP_PROMPT_ORDER=(
   git           # Git section (git_branch + git_status)
   php           # PHP section
   venv          # virtualenv section
-  pyenv         # Pyenv section
+  python
+  node
+  #pyenv         # Pyenv section
   exec_time     # Execution time
   line_sep      # Line break
-  vi_mode       # Vi-mode indicator
   jobs          # Background jobs indicator
   exit_code     # Exit code section
   char          # Prompt character
@@ -106,7 +106,6 @@ SPACESHIP_PROMPT_ORDER=(
 
 # Set Spaceship ZSH as a prompt
 autoload -U promptinit; promptinit
-#prompt spaceship
 
 # fzf-tab configs
 # disable sort when completing `git checkout`
@@ -115,22 +114,19 @@ zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:descriptions' format '[%d]'
 # set list-colors to enable filename colorizing
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# preview directory's content with exa when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 # switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
-source /home/jali/.alias
-export PATH=$PATH:~/scripts
-export PATH=$PATH:~/Dev/Tools/age
+source /Users/jali/.alias
 
-export PATH=$PATH:$HOME/Dev/Programs
-export PATH="$PATH:$HOME/.config/composer/vendor/bin"
+export PATH=$PATH:$HOME/.cargo/bin
 alias python='python3'
-source ~/.local/bin/bashmarks.sh
 
 autoload -U +X bashcompinit && bashcompinit
-source /home/jali/Applications/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# eval "$(register-python-argcomplete pipx)"
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
     source /etc/profile.d/vte.sh
 fi
@@ -140,10 +136,6 @@ fi
 export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
 export LESS=' -R'
 
-# Add FZF keybindings
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-# Add FZF autocomplete
-source /usr/share/doc/fzf/examples/completion.zsh
 # Autostart in tmux
 #if [ "$TMUX" = "" ]
 #then 
@@ -151,7 +143,18 @@ source /usr/share/doc/fzf/examples/completion.zsh
 #fi
 
 export PATH="$HOME/.poetry/bin:$PATH"
-export PATH="$HOME/Applications/flutter/bin:$PATH"
+
+### Android development
+export PATH="$HOME/Dev/Flutter/flutter/bin:$PATH"
+export PATH="$HOME/.gem/bin:$PATH"
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export PATH="$ANDROID_HOME/tools:$PATH"
+export PATH="$ANDROID_HOME/tools/bin:$PATH"
+export PATH="$ANDROID_HOME/platform-tools:$PATH"
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+###
 
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
@@ -166,6 +169,10 @@ fancy-ctrl-z () {
     zle clear-screen
   fi
 }
+
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 zle -N fancy-ctrl-z
 bindkey '^Z' fancy-ctrl-z
 #
@@ -173,5 +180,33 @@ bindkey '^Z' fancy-ctrl-z
 # Run only once to link fd
 #ln -s $(which fdfind) ~/.local/bin/fd
 
-# Used to disable middle click paste
-xbindkeys
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# CodeWhisperer post block. Keep at the bottom of this file.
+[[ -f "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh"
+eval "$(atuin init zsh)"
+
+# Created by `pipx` on 2024-02-06 10:15:38
+export PATH="$PATH:/Users/jali/.local/bin"
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/jali/.lmstudio/bin"
+# End of LM Studio CLI section
+
+
+# Added by Antigravity
+export PATH="/Users/jali/.antigravity/antigravity/bin:$PATH"
+
+# Add .NET Core SDK tools
+export PATH="$PATH:/Users/jali/.dotnet/tools"
+
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
+
+# pnpm
+export PNPM_HOME="/Users/jali/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

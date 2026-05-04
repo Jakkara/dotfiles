@@ -6,7 +6,10 @@
 nnoremap <leader>K <cmd>call CocActionAsync('jumpDefinition') <cr>
 nnoremap <silent><leader>p <cmd>call CocAction('jumpDefinition', 'split')<cr>
 nnoremap <silent><leader>P <cmd>call CocAction('jumpDefinition', 'vsplit')<cr>
-nnoremap <silent><leader>T <cmd>call CocAction('jumpTypeDefinition', 'split')<cr>
+nnoremap <silent><leader>T <cmd>call CocAction('jumpTypeDefinition', 'vsplit')<cr>
+
+nnoremap <leader>ci <cmd>call CocAction('jumpImplementation') <cr>
+nnoremap <leader>coi <cmd>call CocAction('organizeImport') <cr>
 "
 " Use tab for trigger completion with characters ahead and navigate
 " NOTE: There's always complete item selected by default, you may want to enable

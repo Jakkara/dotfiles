@@ -1,26 +1,13 @@
 # GENERAL
-alias nginxr='sudo nginx -s reload'
-alias nginxt='sudo nginx -t'
-alias suwww='sudo su -l www-data -s /bin/bash'
 alias eval-ssh='eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa'
-alias lt="ls -ltrh"
-alias phpdebug="XDEBUG_CONFIG=idekey=phpstorm"
-alias dc="docker-compose"
-alias dcud="docker-compose up -d"
-alias dced="docker-compose exec django"
-alias dcedb="docker-compose exec django bash"
-alias dceds="docker-compose exec django python3 manage.py shell"
-alias dcedrs="docker-compose exec django python3 manage.py runserver 0.0.0.0:8000"
 alias _reload="source ~/.alias; source ~/.zshrc"
-alias xo="xdg-open"
 alias nt="npm test"
 alias tf="terraform"
-alias _history="history | sed 's/^[ ]*[0-9]\+[ ]*//'"
 alias v="nvim"
 alias nv="nvim"
 alias vim="nvim"
-alias e="exa -la"
-alias privates='vim  ~/dotfiles/.private'
+alias e="eza -la"
+alias privates='vim ~/dotfiles/.private'
 # Enable alias expansion with watch
 alias watch='watch -c '
 
@@ -29,6 +16,10 @@ alias gitl="git log"
 alias gits="git status"
 alias gitcam="git commit -am"
 alias gitf="git fetch"
+alias gfx='git commit --fixup $(git log $(git merge-base master HEAD)..HEAD --oneline| fzf| cut -d" " -f1)'
+
+# Include dotfiles in ripgrep, except .git
+alias rg="rg --hidden --glob '!.git'"
 
 # FUNCTIONS
 

@@ -1,9 +1,58 @@
 [user]
-	name = Jali Rainio
-	email = 
-	mail = 
+    email = jali.rainio@vincit.fi
+    name = Jali Rainio
 [alias]
-	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    pub = push -u origin HEAD
+    a = add
+    c = commit
+    ca = commit --amend
+    ca = commit --amend --no-edit
+    cf = commit --fixup
+    co = checkout
+    cp = cherry-pick
+    p = push
+    pf = push --force-with-lease
+    pl = pull
+    s = status
+    sw = switch
+    st = status -sb
+    lg = log --graph --pretty=tformat:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --decorate=full
+    logline = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    df = difftool
+    dfh = difftool @{upstream}
+    last = log -1 HEAD --stat
+    aliases = config --global -l
     edit = !$EDITOR $(git status --short | awk '$1 ~ /^M|A|U/ {print $2}' )
+    remake = "!f() { git rebase -i --autosquash --autostash HEAD~\"$1\"; }; f"
+    remake-to = "!f() { git rebase -i --autosquash --autostash \"$1\"^; }; f"
+    r-to = "!f() { git rebase -i --autosquash --autostash \"$1\"^; }; f"
+    meld = commit --amend --no-edit
+    ru = remote update
+    blog = !git reflog show --pretty=format:'%gs ~ %gd' --date=relative | grep 'checkout:' | grep -oE '[^ ]+ ~ .*' | awk -F~ '!seen[$1]++' | head -n 10 | awk -F' ~ HEAD@{' '{printf(\"  \\033[33m%s: \\033[37m %s\\033[0m\\n\", substr($2, 1, length($2)-1), $1)}'
+    refix = "!f() { \
+        if [ -z \"$1\" ]; then \
+            echo 'Usage: git refix <commit-hash>'; \
+            return 1; \
+        fi; \
+        git commit --fixup \"$1\" && git remake-to \"$1\"; \
+    }; f"
 [core]
-	fileMode = true
+	excludesfile = /Users/jali/.gitignore
+	editor = nvim
+[diff]
+    tool = difftastic
+[difftool]
+    prompt = false
+[difftool "difftastic"]
+    cmd = difft "$LOCAL" "$REMOTE"
+[pager]
+    difftool = true
+[rebase]
+    autoSquash = true
+    autostash = true
+[init]
+    defaultBranch = main
+[commit]
+    verbose = true
+[pull]
+	rebase = true
