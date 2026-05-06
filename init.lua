@@ -1,11 +1,14 @@
 ---------- PLUGINS ----------
 local Plug = vim.fn['plug#']
 vim.call('plug#begin')
+Plug('mason-org/mason.nvim')
+Plug('mason-org/mason-lspconfig.nvim')
+Plug('WhoIsSethDaniel/mason-tool-installer.nvim')
+Plug('saghen/blink.cmp', { tag = 'v1.10.2' })
 Plug('airblade/vim-gitgutter')
 Plug('antoinemadec/FixCursorHold.nvim')
 Plug('christoomey/vim-tmux-navigator')
 Plug('danymat/neogen')
-Plug('fannheyward/telescope-coc.nvim')
 Plug('godlygeek/tabular')
 Plug('itchyny/lightline.vim')
 Plug('Jakkara/vim-checkbox')
@@ -17,12 +20,12 @@ Plug('lukas-reineke/indent-blankline.nvim')
 Plug('machakann/vim-sandwich')
 Plug('mengelbrecht/lightline-bufferline')
 Plug('mhinz/vim-startify')
-Plug('neoclide/coc.nvim', { branch = 'release' })
 Plug('nvim-lua/plenary.nvim')
 Plug('nvim-telescope/telescope-live-grep-args.nvim')
 Plug('nvim-telescope/telescope.nvim')
-Plug('nvim-treesitter/nvim-treesitter', { ['do'] = ':TSUpdate' })
+Plug('nvim-treesitter/nvim-treesitter')
 Plug('sainnhe/sonokai')
+Plug('seblyng/roslyn.nvim')
 Plug('tpope/vim-abolish')
 Plug('tpope/vim-fugitive')
 Plug('tpope/vim-obsession')
@@ -45,6 +48,8 @@ vim.api.nvim_create_autocmd('VimResized', { command = 'wincmd =' })
 
 -- Always paste without replacing clipboard buffer
 vim.keymap.set('v', 'p', 'P')
+-- Use F5 to copy file path to clipboard
+vim.keymap.set('n', '<F5>', '<cmd>let @+ = expand("%")<cr>')
 
 ---------- SYNTAX & EDITING ----------
 vim.opt.tabstop = 2
@@ -203,6 +208,45 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+---------- LSP KEYBINDS ----------
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local opts = { buffer = args.buf }
+    vim.keymap.set('n', '<leader>K', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', '<leader>p', '<cmd>split | lua vim.lsp.buf.definition()<cr>', opts)
+    vim.keymap.set('n', '<leader>P', '<cmd>vsplit | lua vim.lsp.buf.definition()<cr>', opts)
+    vim.keymap.set('n', '<leader>T', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<leader>ci', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<leader>coi', function()
+      vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
+    end, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'x' }, '<leader>a', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<leader>qf', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', '<leader>cl', vim.lsp.codelens.run, opts)
+    vim.keymap.set('n', '<leader>fu', '<cmd>Telescope lsp_references<cr>', opts)
+    vim.keymap.set('n', '<leader>fd', '<cmd>Telescope lsp_document_symbols<cr>', opts)
+    -- Format
+    vim.keymap.set('n', '<leader>F', function() vim.lsp.buf.format({ async = true }) end, opts)
+    -- Diagnostics
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
+    vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
+    -- Scroll float windows
+    vim.keymap.set({ 'n', 'i' }, '<C-f>', function()
+      if not require('blink.cmp').scroll_documentation_down(4) then
+        return '<C-f>'
+      end
+    end, { buffer = args.buf, expr = true })
+    vim.keymap.set({ 'n', 'i' }, '<C-b>', function()
+      if not require('blink.cmp').scroll_documentation_up(4) then
+        return '<C-b>'
+      end
+    end, { buffer = args.buf, expr = true })
+  end,
+})
+
 ---------- PLUGIN KEYBINDS ----------
 -- Git + Fugitive
 vim.keymap.set('n', '<F2>', '<cmd>vertical G<cr>')
@@ -242,7 +286,6 @@ vim.keymap.set('n', '<leader>fo', '<cmd>Telescope oldfiles<cr>')
 vim.keymap.set('n', '<leader>fq', '<cmd>Telescope quickfix<cr>')
 vim.keymap.set('n', '<leader>fm', '<cmd>Telescope keymaps<cr>')
 vim.keymap.set('n', '<leader>fk', '<cmd>Telescope grep_string initial_mode=normal<cr>')
-vim.keymap.set('n', '<leader>fu', '<cmd>Telescope coc references initial_mode=normal<cr>')
 
 -- Bufferline (go + delete, numbered 1-10)
 for i = 1, 10 do
@@ -311,12 +354,56 @@ vim.keymap.set('n', '<leader>zc', function()
   print(vim.fn.synIDattr(vim.fn.synIDtrans(id), 'fg'))
 end)
 
----------- COC CONFIG ----------
--- Source the CoC vimscript config (keybinds, completion, etc.)
-vim.cmd('source ~/dotfiles/.coc.vimrc')
-
 ---------- PLUGIN SETUP ----------
 require('neogen').setup({})
+
+require('mason').setup({
+  registries = {
+    'github:mason-org/mason-registry',
+    'github:Crashdummyy/mason-registry',
+  },
+})
+
+require('mason-lspconfig').setup({
+  ensure_installed = {
+    'lua_ls',
+    'ts_ls',
+    'eslint',
+    'html',
+    'cssls',
+    'jsonls',
+    'bicep',
+  },
+  automatic_installation = true,
+})
+
+require('mason-tool-installer').setup({
+  ensure_installed = {
+    'xmlformatter',
+    'csharpier',
+    'prettier',
+    'stylua',
+  },
+})
+
+-- mason-lspconfig auto-enables LSPs via vim.lsp.enable()
+-- Individual LSP configs can be added with vim.lsp.config() if needed
+
+require('blink.cmp').setup({
+  keymap = {
+    preset = 'default',
+    ['<Tab>'] = { 'select_next', 'fallback' },
+    ['<S-Tab>'] = { 'select_prev', 'fallback' },
+    ['<CR>'] = { 'accept', 'fallback' },
+    ['<C-space>'] = { 'show' },
+  },
+  sources = {
+    default = { 'lsp', 'path', 'buffer' },
+  },
+  completion = {
+    documentation = { auto_show = true },
+  },
+})
 
 require('ibl').setup({
   scope = {
@@ -325,7 +412,6 @@ require('ibl').setup({
   },
 })
 
--- Merged telescope setup (was two separate calls in the original)
 require('telescope').setup({
   defaults = {
     cache_picker = { num_pickers = 10 },
@@ -336,15 +422,9 @@ require('telescope').setup({
       width = 0.90,
     },
   },
-  extensions = {
-    coc = {
-      prefer_locations = true,
-    },
-  },
 })
 vim.keymap.set('n', '<leader>fa', require('telescope').extensions.live_grep_args.live_grep_args, { noremap = true })
 require('telescope').load_extension('live_grep_args')
-require('telescope').load_extension('coc')
 
 require('nvim-treesitter').setup({
   highlight = {
@@ -360,3 +440,19 @@ require('nvim-treesitter').setup({
     },
   },
 })
+require('nvim-treesitter').install({
+  'hyprlang',
+  'vim',
+  'lua',
+  'vimdoc',
+  'html',
+  'css',
+  'c_sharp',
+  'razor',
+})
+
+require('roslyn').setup({
+  filewatching = 'workspace',
+  broad_search = true,
+})
+vim.lsp.config('roslyn', {})
