@@ -1,3 +1,7 @@
+-- Disable netrw before any plugins load (required by nvim-tree)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 ---------- PLUGINS ----------
 local Plug = vim.fn['plug#']
 vim.call('plug#begin')
@@ -113,8 +117,6 @@ vim.api.nvim_create_autocmd('WinLeave', {
 })
 
 ---------- PLUGIN VARIABLES ----------
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 vim.g.vim_markdown_new_list_item_indent = 0
 vim.g.vim_markdown_folding_disabled = 1
 
@@ -354,8 +356,9 @@ require('mason-lspconfig').setup({
     'jsonls',
     'bicep',
   },
-  automatic_installation = true,
 })
+
+vim.lsp.enable({ 'lua_ls', 'ts_ls', 'eslint', 'html', 'cssls', 'jsonls', 'bicep' })
 
 require('mason-tool-installer').setup({
   ensure_installed = {
@@ -366,8 +369,6 @@ require('mason-tool-installer').setup({
   },
 })
 
--- mason-lspconfig auto-enables LSPs via vim.lsp.enable()
--- Individual LSP configs can be added with vim.lsp.config() if needed
 
 require('blink.cmp').setup({
   keymap = {
