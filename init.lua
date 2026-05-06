@@ -14,9 +14,9 @@ Plug('itchyny/lightline.vim')
 Plug('Jakkara/vim-checkbox')
 Plug('jremmen/vim-ripgrep')
 Plug('kdheepak/lazygit.nvim')
-Plug('lambdalisue/fern-git-status.vim')
-Plug('lambdalisue/fern.vim')
 Plug('lukas-reineke/indent-blankline.nvim')
+Plug('nvim-tree/nvim-tree.lua')
+Plug('nvim-tree/nvim-web-devicons')
 Plug('machakann/vim-sandwich')
 Plug('mengelbrecht/lightline-bufferline')
 Plug('mhinz/vim-startify')
@@ -45,6 +45,11 @@ vim.opt.shortmess:append('c')
 
 -- React to terminal size changes and resize splits
 vim.api.nvim_create_autocmd('VimResized', { command = 'wincmd =' })
+
+-- Reload files changed externally
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  command = 'checktime',
+})
 
 -- Always paste without replacing clipboard buffer
 vim.keymap.set('v', 'p', 'P')
@@ -108,8 +113,8 @@ vim.api.nvim_create_autocmd('WinLeave', {
 })
 
 ---------- PLUGIN VARIABLES ----------
-vim.g['fern#default_hidden'] = 1
-vim.g['fern#renderer#default#leading'] = '>  '
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 vim.g.vim_markdown_new_list_item_indent = 0
 vim.g.vim_markdown_folding_disabled = 1
 
@@ -294,34 +299,9 @@ for i = 1, 10 do
   vim.keymap.set('n', '<Leader>c' .. key, '<Plug>lightline#bufferline#delete(' .. i .. ')')
 end
 
--- Fern
-vim.keymap.set('n', '<leader>E', '<cmd>Fern . -drawer -right -toggle -width=80<cr>', { silent = true })
-vim.keymap.set('n', '<leader>R', '<cmd>Fern . -drawer -right -reveal=% -width=80<cr><C-w>=', { silent = true })
-
-local fern_group = vim.api.nvim_create_augroup('FernEvents', { clear = true })
-vim.api.nvim_create_autocmd('FileType', {
-  group = fern_group,
-  pattern = 'fern',
-  callback = function()
-    local opts = { buffer = true }
-    vim.cmd([[
-      nmap <buffer><expr> <Plug>(fern-my-open-expand-collapse)
-            \ fern#smart#leaf(
-            \   "\<Plug>(fern-action-open:select)",
-            \   "\<Plug>(fern-action-expand)",
-            \   "\<Plug>(fern-action-collapse)",
-            \ )
-    ]])
-    vim.keymap.set('n', '<CR>', '<Plug>(fern-my-open-expand-collapse)', opts)
-    vim.keymap.set('n', '<2-LeftMouse>', '<Plug>(fern-my-open-expand-collapse)', opts)
-    vim.keymap.set('n', 'm', '<Plug>(fern-action-mark:toggle)', opts)
-    vim.keymap.set('n', 'N', '<Plug>(fern-action-new-file)', opts)
-    vim.keymap.set('n', 'K', '<Plug>(fern-action-new-dir)', opts)
-    vim.keymap.set('n', 'D', '<Plug>(fern-action-remove)', opts)
-    vim.keymap.set('n', 'C', '<Plug>(fern-action-move)', opts)
-    vim.keymap.set('n', 'R', '<Plug>(fern-action-rename)', opts)
-  end,
-})
+-- nvim-tree
+vim.keymap.set('n', '<leader>E', '<cmd>NvimTreeToggle<cr>', { silent = true })
+vim.keymap.set('n', '<leader>R', '<cmd>NvimTreeFindFile<cr>', { silent = true })
 
 -- Flake8 / Mypy
 local lint_group = vim.api.nvim_create_augroup('PythonLint', { clear = true })
@@ -456,3 +436,13 @@ require('roslyn').setup({
   broad_search = true,
 })
 vim.lsp.config('roslyn', {})
+
+require('nvim-tree').setup({
+  view = {
+    side = 'right',
+    width = 80,
+  },
+  filters = {
+    dotfiles = false,
+  },
+})
