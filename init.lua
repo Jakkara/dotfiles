@@ -29,6 +29,7 @@ Plug('nvim-telescope/telescope-live-grep-args.nvim')
 Plug('nvim-telescope/telescope.nvim')
 Plug('nvim-treesitter/nvim-treesitter')
 Plug('sainnhe/sonokai')
+Plug 'stevearc/aerial.nvim'
 Plug('seblyng/roslyn.nvim')
 Plug('tpope/vim-abolish')
 Plug('tpope/vim-fugitive')
@@ -44,6 +45,7 @@ vim.opt.ttimeout = true
 vim.opt.timeout = false
 vim.opt.autoread = true
 vim.opt.updatetime = 750
+vim.opt.incsearch = false
 vim.opt.mouse = 'a'
 vim.opt.shortmess:append('c')
 
@@ -195,7 +197,6 @@ vim.api.nvim_create_autocmd('FileType', {
   group = python_group,
   pattern = 'python',
   callback = function()
-    vim.keymap.set('n', '<leader>R', ':!python3 %<CR>', { buffer = true })
     vim.keymap.set('n', '<leader>ft', function()
       vim.cmd("edit **/test_" .. vim.fn.fnamemodify(vim.fn.resolve(vim.fn.expand('%:t')), ':t'))
     end, { buffer = true })
@@ -223,7 +224,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>p', '<cmd>split | lua vim.lsp.buf.definition()<cr>', opts)
     vim.keymap.set('n', '<leader>P', '<cmd>vsplit | lua vim.lsp.buf.definition()<cr>', opts)
     vim.keymap.set('n', '<leader>T', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<leader>ci', vim.lsp.buf.implementation, opts)
     vim.keymap.set('n', '<leader>coi', function()
       vim.lsp.buf.code_action({ context = { only = { 'source.organizeImports' } }, apply = true })
     end, opts)
@@ -233,12 +233,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>qf', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', '<leader>cl', vim.lsp.codelens.run, opts)
     vim.keymap.set('n', '<leader>fu', '<cmd>Telescope lsp_references<cr>', opts)
+    vim.keymap.set('n', '<leader>fi', '<cmd>Telescope lsp_implementations<cr>', opts)
     vim.keymap.set('n', '<leader>fd', '<cmd>Telescope lsp_document_symbols<cr>', opts)
     -- Format
     vim.keymap.set('n', '<leader>F', function() vim.lsp.buf.format({ async = true }) end, opts)
     -- Diagnostics
-    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
-    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
     -- Scroll float windows
     vim.keymap.set({ 'n', 'i' }, '<C-f>', function()
@@ -253,6 +252,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, { buffer = args.buf, expr = true })
   end,
 })
+
 
 ---------- PLUGIN KEYBINDS ----------
 -- Git + Fugitive
@@ -281,8 +281,6 @@ endfunction
 command! -nargs=1 Gfix call FixupAndRebaseToCommit(<f-args>)
 ]])
 
--- Tagbar
-vim.keymap.set('n', '<leader>t', '<cmd>TagbarToggle<cr>')
 
 -- Telescope
 vim.keymap.set('n', '<leader>ff', '<cmd>Telescope find_files<cr>')
@@ -302,7 +300,7 @@ for i = 1, 10 do
 end
 
 -- nvim-tree
-vim.keymap.set('n', '<leader>E', '<cmd>NvimTreeToggle<cr>', { silent = true })
+vim.keymap.set('n', '<leader>l', '<cmd>NvimTreeToggle<cr>', { silent = true })
 vim.keymap.set('n', '<leader>R', '<cmd>NvimTreeFindFile<cr>', { silent = true })
 
 -- Flake8 / Mypy
@@ -397,10 +395,10 @@ require('telescope').setup({
   defaults = {
     cache_picker = { num_pickers = 10 },
     file_ignore_patterns = { 'poetry.lock' },
-    layout_strategy = 'vertical',
+    layout_strategy = 'horizontal',
     layout_config = {
-      height = 0.95,
-      width = 0.90,
+      height = 0.98,
+      width = 0.98,
     },
   },
 })
@@ -441,9 +439,19 @@ vim.lsp.config('roslyn', {})
 require('nvim-tree').setup({
   view = {
     side = 'right',
-    width = 80,
+    width = 60,
   },
   filters = {
     dotfiles = false,
   },
 })
+
+require("aerial").setup({
+  on_attach = function(bufnr)
+    -- Jump forwards/backwards with '{' and '}'
+    vim.keymap.set("n", "{", "<cmd>AerialPrev<CR>", { buffer = bufnr })
+    vim.keymap.set("n", "}", "<cmd>AerialNext<CR>", { buffer = bufnr })
+  end,
+})
+vim.keymap.set("n", "<leader>o", "<cmd>AerialToggle!<CR>")
+
