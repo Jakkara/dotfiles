@@ -7,6 +7,8 @@ export EDITOR=vim
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/jali/.oh-my-zsh"
 
+ulimit -n 4096
+
 source /opt/homebrew/opt/spaceship/spaceship.zsh
 
 # Uncomment the following line to use case-sensitive completion.
