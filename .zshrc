@@ -5,7 +5,7 @@ export EDITOR=vim
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/jali/.oh-my-zsh"
+export ZSH="/Users/jalrainio/.oh-my-zsh"
 
 ulimit -n 4096
 
@@ -51,13 +51,14 @@ source /opt/homebrew/opt/spaceship/spaceship.zsh
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -88,7 +89,7 @@ bindkey "^Xa" _expand_alias
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-fpath=($fpath "/Users/jali/.zfunctions")
+fpath=($fpath "/Users/jalrainio/.zfunctions")
 
 SPACESHIP_PROMPT_ORDER=(
   time          # Time stamps section
@@ -121,7 +122,6 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 # switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
 
-source /Users/jali/.alias
 
 export PATH=$PATH:$HOME/.cargo/bin
 alias python='python3'
@@ -158,10 +158,6 @@ export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 ###
 
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
 fancy-ctrl-z () {
   if [[ $#BUFFER -eq 0 ]]; then
     BUFFER="fg"
@@ -184,29 +180,18 @@ bindkey '^Z' fancy-ctrl-z
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# CodeWhisperer post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh"
+source ~/.alias
+
+. "$HOME/.atuin/bin/env"
 eval "$(atuin init zsh)"
 
-# Created by `pipx` on 2024-02-06 10:15:38
-export PATH="$PATH:/Users/jali/.local/bin"
-export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/jali/.lmstudio/bin"
-# End of LM Studio CLI section
-
-
-# Added by Antigravity
-export PATH="/Users/jali/.antigravity/antigravity/bin:$PATH"
-
 # Add .NET Core SDK tools
-export PATH="$PATH:/Users/jali/.dotnet/tools"
+export PATH="$PATH:/Users/jalrainio/.dotnet/tools"
 
 complete -o nospace -C /opt/homebrew/bin/terraform terraform
 
 # pnpm
-export PNPM_HOME="/Users/jali/Library/pnpm"
+export PNPM_HOME="/Users/jalrainio/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
