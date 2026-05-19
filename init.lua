@@ -441,6 +441,11 @@ require('nvim-tree').setup({
     side = 'right',
     width = 60,
   },
+  renderer = {
+    icons = {
+      git_placement = "after"
+    }
+  },
   filters = {
     dotfiles = false,
   },
